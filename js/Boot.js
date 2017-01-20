@@ -2,7 +2,7 @@ var SideScroller = SideScroller || {};
  
 SideScroller.Boot = function(){};
  
-//setting game configuration and loading the assets for the loading screen
+//s fsdfasd etting game configuration and loading the assets for the loading screen
  
 SideScroller.Boot.prototype = {
  
