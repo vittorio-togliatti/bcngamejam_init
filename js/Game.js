@@ -77,7 +77,8 @@ SideScroller.Game.prototype = {
 			this.game.physics.p2.enable( [ bug ], true );
 			bug.body.fixedRotation = false;
 			bug.body.setCollisionGroup( collisionGroup );
-			bug.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ], onCollisionCallback, this );
+			bug.body.collides( [ this.islandsCollisionGroup ], onCollisionCallback, this );
+			bug.body.collides( [ this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ], null, this );
 			//bug.body.damping = 0;
 			bug.checkWorldBounds = true;
 			bug.outOfBoundsKill = true;
