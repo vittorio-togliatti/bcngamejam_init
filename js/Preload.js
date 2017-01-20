@@ -35,7 +35,8 @@ SideScroller.Preload.prototype = {
     //this.load.audio('explosion', 'audio/explosion.ogg');
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
     
-    this.load.image('bicho', 'jam_img/ball.png');
+    this.load.image('bugP1', 'jam_img/bugP1.png');
+	this.load.image('bugP2', 'jam_img/bugP2.png');
    
   },
  

@@ -31,14 +31,17 @@ SideScroller.Game.prototype = {
     //***********  end customize ************//
       
       //objetos suelo
-      this.bichos = this.game.add.group();
+	  
+	  this.bugsP1 = this.game.add.group();
+	  this.bugsP2 = this.game.add.group();
+	  
+      //this.bichos = this.game.add.group();
+      //this.addBicho(300, 300);
+	  
+	  this.addBugsToGroup( 5, "bugP1", this.bugsP1 );
+	  this.addBugsToGroup( 5, "bugP2", this.bugsP2 );
       
-      this.addBicho(300, 300);
-      
-       this.input.onDown.add(this.myclick, this);
-   
-    
-    
+      this.input.onDown.add(this.myclick, this);
    
  }, 
  
@@ -60,7 +63,21 @@ SideScroller.Game.prototype = {
     },
     
     //functions
+	
+	addBugsToGroup: function( num, img, group ) {
+		for ( var i = 0; i < num; i++ )  {
+			var x = Math.random() * 1000;
+			var y = Math.random() * 600;
+			var bug = group.create( x, y, img );
+			this.game.physics.p2.enable([bug], false);
+			bug.body.fixedRotation = false;
+			//grua.body.damping = 0;
+			bug.checkWorldBounds = true;
+			bug.outOfBoundsKill = true;			
+		}
+	},
     
+	/*
     addBicho: function(x, y) {
         this.bicho = this.bichos.create(x, y,'bicho');
         this.game.physics.p2.enable([this.bicho], false);
@@ -70,17 +87,26 @@ SideScroller.Game.prototype = {
         this.bicho.outOfBoundsKill = true;
         
     },
+	*/
     
     myclick: function() {
-        var distancia = this.game.input.activePointer.position.distance(this.bicho.body);
-        
-       // alert(d);
+		for ( var i = 0; this.bugsP1.children.length; i++ ) {
+			this.applyImpulseToBug( this.bugsP1.children[i] );
+		}
+		for ( var j = 0; this.bugsP2.children.length; j++ ) {
+			this.applyImpulseToBug( this.bugsP2.children[j] );
+		} 
+    },
+	
+	applyImpulseToBug: function( bug ) {
+	
+        var distancia = this.game.input.activePointer.position.distance( bug.body );
         
         var y = this.game.input.activePointer.y;
         var x = this.game.input.activePointer.x;
-        
-        var bichox = this.bicho.body.x;
-        var bichoy = this.bicho.body.y;
+   
+        var bichox = bug.body.x;
+        var bichoy = bug.body.y;
         
         var impX = x - bichox;
         
@@ -90,19 +116,15 @@ SideScroller.Game.prototype = {
         var impulso = {x:impX,y:impY};
         
         var impNormalized = this.normalize(impulso);
-        
-        //this.bicho.body.velocity.y += 3;
-        //this.bicho.body.velocity.x += 3;
-        
-        //var impulse = [	(mass * this.player.body.velocity.x) * duration, ((mass * 2) * duration) * -1 ];
+
                 
         if (distancia<400){
             var fuerza = (400 - distancia)* 0.01;
             var impulse = [impNormalized.x * fuerza,impNormalized.y * fuerza];
-            this.bicho.body.applyImpulse(impulse, 0, 0); 
+            bug.body.applyImpulse(impulse, 0, 0); 
         }
-        
-    },
+		
+	},
     
     normalize: function(vector) {
     var length =  Math.sqrt( vector.x * vector.x + vector.y * vector.y );
