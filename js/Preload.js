@@ -9,13 +9,13 @@ SideScroller.Preload.prototype = {
   preload: function() {
       
     //show loading screen
-    this.bkg = this.game.add.sprite(0, 0,  'preloadbkg');
+    //this.bkg = this.game.add.sprite(0, 0,  'preloadbkg');
       
-    this.preloadBar = this.add.sprite(this.game.world.centerX-51, this.game.world.centerY-10, 'preloadbar');
-    this.preloadBar.anchor.setTo(0.0);
-    this.preloadBar.scale.setTo(2.1,2.7);
- 
-    this.load.setPreloadSprite(this.preloadBar);
+//    this.preloadBar = this.add.sprite(this.game.world.centerX-51, this.game.world.centerY-10, 'preloadbar');
+//    this.preloadBar.anchor.setTo(0.0);
+//    this.preloadBar.scale.setTo(2.1,2.7);
+// 
+//    this.load.setPreloadSprite(this.preloadBar);
       
     //Load saved data
 //    if (localStorage.getItem('gameData') == null){
@@ -35,12 +35,12 @@ SideScroller.Preload.prototype = {
     //this.load.audio('explosion', 'audio/explosion.ogg');
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
     
-    
+    this.load.image('bicho', 'jam_img/ball.png');
    
   },
  
   create: function() {
-      this.state.start('Splash');
+      this.state.start('Game');
   }
  
 };
