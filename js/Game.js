@@ -24,24 +24,28 @@ SideScroller.Game.prototype = {
     },
  
   create: function() {
-      
-    //*******  variables customización *******//
-   
-
-    //***********  end customize ************//
-      
-      //objetos suelo
+  
+	  // Game logic
+	  this.scoreP1 = 0;
+	  this.scoreP2 = 0;
+  
+	  // Collision groups
+	  this.bugsP1CollisionGroup = this.game.physics.p2.createCollisionGroup();
+	  this.bugsP2CollisionGroup = this.game.physics.p2.createCollisionGroup();
+	  this.islandsCollisionGroup = this.game.physics.p2.createCollisionGroup();
+	  this.game.physics.p2.updateBoundsCollisionGroup();
 	  
+	  // Grupos
 	  this.bugsP1 = this.game.add.group();
 	  this.bugsP2 = this.game.add.group();
+	  this.islands = this.game.add.group();	  
+	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
+	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
+	  this.addIsland( 250, 300 );
+	  this.addIsland( 750, 300 );
 	  
-      //this.bichos = this.game.add.group();
-      //this.addBicho(300, 300);
-	  
-	  this.addBugsToGroup( 5, "bugP1", this.bugsP1 );
-	  this.addBugsToGroup( 5, "bugP2", this.bugsP2 );
-      
-      this.input.onDown.add(this.myclick, this);
+	  // Events
+      this.input.onDown.add( this.myclick, this );
    
  }, 
  
@@ -50,11 +54,12 @@ SideScroller.Game.prototype = {
             
   },
  
-  render: function()
+  render: function() {
+  
+		this.game.debug.text( "SCORE 01: " + this.scoreP1 + " / Bugs alive: " + this.bugsP1.children.length, 20, 20, "#000", "20px Courier");
+		this.game.debug.text( "SCORE 02: " + this.scoreP2 + " / Bugs alive: " + this.bugsP1.children.length, 20, 40, "#000", "20px Courier");
  
-    {
- 
-//        this.game.debug.text(this.game.time.fps || '--', 20, 20, "#00ff00", "10px Courier");  
+//        this.game.debug.text( this.game.time.fps || '--', 20, 20, "#00ff00", "10px Courier");  
 //        this.game.debug.text('Speed: ' + this.player.body.velocity.y, 20, 40, "#00ff00", "10px Courier");
    
 //        this.game.debug.text('Width: ' + window.screen.availWidth * window.devicePixelRatio, 20, 60, "#00ff00", "10px Courier");
@@ -64,17 +69,30 @@ SideScroller.Game.prototype = {
     
     //functions
 	
-	addBugsToGroup: function( num, img, group ) {
+	addBugs: function( num, img, group, collisionGroup, onCollisionCallback ) {
 		for ( var i = 0; i < num; i++ )  {
 			var x = Math.random() * 1000;
 			var y = Math.random() * 600;
 			var bug = group.create( x, y, img );
-			this.game.physics.p2.enable([bug], false);
+			this.game.physics.p2.enable( [ bug ], true );
 			bug.body.fixedRotation = false;
-			//grua.body.damping = 0;
+			bug.body.setCollisionGroup( collisionGroup );
+			bug.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ], onCollisionCallback, this );
+			//bug.body.damping = 0;
 			bug.checkWorldBounds = true;
-			bug.outOfBoundsKill = true;			
+			bug.outOfBoundsKill = true;
 		}
+	},
+	
+	addIsland: function( x, y ) {
+		var island = this.islands.create( x, y, "island" );
+		this.game.physics.p2.enable( [ island ], true );
+		island.body.fixedRotation = true;
+		island.body.mass = 3;
+		island.body.setCollisionGroup( this.islandsCollisionGroup );	
+		island.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ] );
+		island.checkWorldBounds = true;
+		island.outOfBoundsKill = true;
 	},
     
 	/*
@@ -90,16 +108,17 @@ SideScroller.Game.prototype = {
 	*/
     
     myclick: function() {
-		for ( var i = 0; this.bugsP1.children.length; i++ ) {
-			this.applyImpulseToBug( this.bugsP1.children[i] );
+		this.applyImpulse( this.islands.children[0] );
+		this.applyImpulse( this.islands.children[1] );
+		for ( var i = 0; i < this.bugsP1.children.length; i++ ) {			
+			this.applyImpulse( this.bugsP1.children[i] );
+		}		
+		for ( var j = 0; j < this.bugsP2.children.length; j++ ) {
+			this.applyImpulse( this.bugsP2.children[j] );
 		}
-		for ( var j = 0; this.bugsP2.children.length; j++ ) {
-			this.applyImpulseToBug( this.bugsP2.children[j] );
-		} 
     },
-	
-	applyImpulseToBug: function( bug ) {
-	
+		
+	applyImpulse: function( bug ) {
         var distancia = this.game.input.activePointer.position.distance( bug.body );
         
         var y = this.game.input.activePointer.y;
@@ -109,11 +128,9 @@ SideScroller.Game.prototype = {
         var bichoy = bug.body.y;
         
         var impX = x - bichox;
-        
-        
         var impY = y - bichoy;
         
-        var impulso = {x:impX,y:impY};
+        var impulso = {x:impX, y:impY};
         
         var impNormalized = this.normalize(impulso);
 
@@ -127,21 +144,27 @@ SideScroller.Game.prototype = {
 	},
     
     normalize: function(vector) {
-    var length =  Math.sqrt( vector.x * vector.x + vector.y * vector.y );
-
+		var length =  Math.sqrt( vector.x * vector.x + vector.y * vector.y );
         if ( length > 0 ) {
             return { x: vector.x / length, y: vector.y / length };
         } else {
             return { x: 0, y: 0 };
-        }
+		}
+    },
 	
-
-    }
-    
-    
-    
-    
-    
+	onBugP1CollidingIsland: function( bug, island ) {
+		//bug.sprite.kill();
+		//bug.sprite.body.destroy();
+		//this.bugsP1.remove( bug );
+		this.scoreP1++;
+	},
+	
+	onBugP2CollidingIsland: function( bug, island ) {
+		//bug.sprite.kill();
+		//bug.sprite.body.destroy();
+		//this.bugsP2.remove( bug );
+		this.scoreP2++;
+	}
     
 };
 
