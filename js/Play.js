@@ -25,6 +25,11 @@ Waves.Play.prototype = {
  
   create: function() {
 	
+    
+      
+    this.audio_rana  = this.add.audio('audio_rana');
+    this.audio_weheee  = this.add.audio('audio_weheee');
+      
 	 this.game.add.sprite( 150, 0, 'play', 0 );
 		
 	  // Game logic
@@ -115,6 +120,10 @@ Waves.Play.prototype = {
 			var y = Math.random() * windowHeight;
 			var bug = group.create( x, y, img );
 			this.game.physics.p2.enable( [ bug ], false );
+            
+            bug.body.clearShapes();
+            bug.body.loadPolygon("sprite_physics", "bug");
+            
 			bug.body.fixedRotation = false;
 			bug.body.setCollisionGroup( collisionGroup );
 			bug.body.collides( [ this.islandsCollisionGroup ], onCollisionCallback, this );
@@ -322,6 +331,7 @@ Waves.Play.prototype = {
 	
 	onBugP1CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
+        this.audio_weheee.play();
 		scoreP1++;
 		this.scoreP1Text.text = scoreP1;
 		this.checkWinner();
@@ -329,6 +339,7 @@ Waves.Play.prototype = {
 	
 	onBugP2CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
+        this.audio_weheee.play();
 		scoreP2++;
 		this.scoreP2Text.text = scoreP2;
 		this.checkWinner();
@@ -336,8 +347,10 @@ Waves.Play.prototype = {
 	
     onCollisionRana: function( rana, bug ) {
 		if ( bug.sprite ) {
+            this.runBugEmitter(bug.sprite.body.x,bug.sprite.body.y);
             bug.sprite.destroy();
             this.anim_rana.play();
+            this.audio_rana.play();
 			this.checkWinner();
         }
     },	
@@ -357,7 +370,30 @@ Waves.Play.prototype = {
 			winner = null;
 			this.state.start('Winner');
 		}
-	}
+	},
+    
+    runBugEmitter: function(x,y){
+        emitter = this.game.add.emitter(x, y);
+
+        emitter.makeParticles('particle_bug');
+
+        emitter.setRotation(0, 0);
+        emitter.setAlpha(0.3, 0.8);
+        emitter.setScale(0.5, 1);
+        emitter.gravity = -50;
+        emitter.setXSpeed(-10,10);
+        emitter.setYSpeed(-1,-10);
+
+        //	false means don't explode all the sprites at once, but instead release at a rate of one particle per 100ms
+        //	The 5000 value is the lifespan of each particle before it's killed
+        emitter.start(true, 2000, null, 10);
+        //  And 2 seconds later we'll destroy the emitter
+        //this.game.time.events.add(2000, this.destroyEmitter, this);
+    },
+    
+    destroyEmitter: function(){
+             emitter.destroy();
+    }
 	
 	/*
 	areBugsAlive(  ) {

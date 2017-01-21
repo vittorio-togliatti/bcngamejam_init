@@ -16,6 +16,10 @@ Waves.Preload.prototype = {
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
  
     //load game assets
+    this.load.audio('audio_rana', 'audio/rana.mp3');
+    this.load.audio('audio_weheee', 'audio/weheee.mp3');
+    
+    this.load.image('particle_bug', 'img/particula_1.png');
     this.load.image('menu', 'img/menu.jpg');
 	this.load.image('play', 'img/play.jpg');
 	this.load.image('winner', 'img/winner.png');
