@@ -64,12 +64,13 @@ Waves.Play.prototype = {
 	  this.addIsland( 250, windowHeight / 2, "island1" );
 	  this.addIsland( windowWidth - 250, windowHeight / 2, "island2"  );
       this.addRana( 300, 100 );
-	  
-	  var style = { font: "bold 75px Arial", fill: "#7e5f33", boundsAlignH: "center", boundsAlignV: "middle" };	  
-      this.scoreP1Text = this.game.add.text( 48, 70, "0", style );	  
-      this.scoreP2Text = this.game.add.text( 1110, 70, "0", style );
+	  	 
+      // sidebarsPlaying
+	  var styleP1 = { font: "bold 75px Arial", fill: "#79562a", boundsAlignH: "center", boundsAlignV: "middle" };	  
+      this.scoreP1Text = this.game.add.text( 48, 70, "0", styleP1 );
+	  var styleP2 = { font: "bold 75px Arial", fill: "#4c8d36", boundsAlignH: "center", boundsAlignV: "middle" };
+      this.scoreP2Text = this.game.add.text( 1110, 70, "0", styleP2 );
 
-	  // sidebarsPlaying
 	  this.borderP1 = this.game.add.sprite( 0, 0, "borderP1" )
 	  this.borderP2 = this.game.add.sprite( 1050, 0, "borderP2" );
 	  this.borderP2.visible = false;
@@ -90,6 +91,26 @@ Waves.Play.prototype = {
 	  this.tapsP2[0].visible = false;
 	  this.tapsP2[1].visible = false;
 	  this.tapsP2[2].visible = false;
+	  
+	  this.tapEnabled = false;
+	  
+	  this.sidebarBugP1 = this.game.add.sprite( -200, 300, "sidebarBugP1" );
+	  this.sidebarBugP1TweenIn = this.game.add.tween( this.sidebarBugP1 )
+		.to( { x: -20 }, 1500, Phaser.Easing.Elastic.Out )
+		.delay( 500 );
+	  this.sidebarBugP1TweenIn.onComplete.add( this.enableTap, this );
+	  this.sidebarBugP1TweenOut = this.game.add.tween( this.sidebarBugP1 )
+		.to( { x: -200 }, 1000, null );
+	  this.sidebarBugP2 = this.game.add.sprite( 1200, 300, "sidebarBugP2" );
+	  this.sidebarBugP2TweenIn = this.game.add.tween( this.sidebarBugP2 )
+		.to( { x: 1020 }, 1500, Phaser.Easing.Elastic.Out )
+		.delay( 500 );
+	  this.sidebarBugP2TweenIn.onComplete.add( this.enableTap, this );
+	  this.sidebarBugP2TweenOut = this.game.add.tween( this.sidebarBugP2 )
+		.to( { x: 1200 }, 1000, null );	  
+	  
+	  // Lanzamos ya el tween del chinche P1
+	  this.sidebarBugP1TweenIn.start();
       
 	  // Events
 	  this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
@@ -236,60 +257,71 @@ Waves.Play.prototype = {
     },
 	
 	createSplash: function( x, y ) {
+		if ( this.tapEnabled ) {
 		
-		this.waves.clear();
-		this.waves.alpha = 1;
-		this.waves.lineStyle( 1, 0x334d50, 1 );
-		this.waves.drawCircle( x, y, 20 );
-		this.waves.drawCircle( x, y, 40 );
-		this.waves.drawCircle( x, y, 80 );
-		this.waves.drawCircle( x, y, 160 );		
-		
-		this.applyImpulse( x, y, this.islands.children[0] );
-		this.applyImpulse( x, y, this.islands.children[1] );
-        
-        this.applyImpulse( x, y, this.ranas.children[0] );
-		
-		for ( var i = 0; i < this.bugsP1.children.length; i++ ) {			
-			this.applyImpulse( x, y, this.bugsP1.children[i] );
-		}
-		
-		for ( var j = 0; j < this.bugsP2.children.length; j++ ) {
-			this.applyImpulse( x, y, this.bugsP2.children[j] );
-		}
-		
-		// Cambio player
-		if ( this.currentPlayer == 1 ) {
-			this.numTapsP1--;
-			if ( this.numTapsP1 == 0 ) { 
-				this.currentPlayer = 2;
-				this.borderP1.visible = false;
-				this.borderP2.visible = true;
-				this.numTapsP2 = 3;
+			this.waves.clear();
+			this.waves.alpha = 1;
+			this.waves.lineStyle( 1, 0x334d50, 1 );
+			this.waves.drawCircle( x, y, 20 );
+			this.waves.drawCircle( x, y, 40 );
+			this.waves.drawCircle( x, y, 80 );
+			this.waves.drawCircle( x, y, 160 );		
+			
+			this.applyImpulse( x, y, this.islands.children[0] );
+			this.applyImpulse( x, y, this.islands.children[1] );
+			
+			this.applyImpulse( x, y, this.ranas.children[0] );
+			
+			for ( var i = 0; i < this.bugsP1.children.length; i++ ) {			
+				this.applyImpulse( x, y, this.bugsP1.children[i] );
 			}
-		} else { /* this.currentPlayer == 2 */
-			this.numTapsP2--;
-			if ( this.numTapsP2 == 0 ) { 
-				this.currentPlayer = 1;
-				this.borderP1.visible = true;
-				this.borderP2.visible = false;				
-				this.numTapsP1 = 3;
+			
+			for ( var j = 0; j < this.bugsP2.children.length; j++ ) {
+				this.applyImpulse( x, y, this.bugsP2.children[j] );
+			}
+			
+			// Cambio player
+			if ( this.currentPlayer == 1 ) {
+				this.numTapsP1--;
+				if ( this.numTapsP1 == 0 ) {
+					this.tapEnabled = false;
+					this.currentPlayer = 2;
+					this.sidebarBugP1TweenOut.start();
+					this.sidebarBugP2TweenIn.start();				
+					this.borderP1.visible = false;
+					this.borderP2.visible = true;
+					this.numTapsP2 = 3;
+				}
+			} else { /* this.currentPlayer == 2 */
+				this.numTapsP2--;
+				if ( this.numTapsP2 == 0 ) {
+					this.tapEnabled = false;			
+					this.currentPlayer = 1;
+					this.sidebarBugP2TweenOut.start();
+					this.sidebarBugP1TweenIn.start();
+					this.borderP1.visible = true;
+					this.borderP2.visible = false;				
+					this.numTapsP1 = 3;
+				}
+			}
+			// Refresh tap status!!!
+			for ( var t = 0; t < 3; t++ ) {
+				if ( t < this.numTapsP1 ) {
+					this.tapsP1[t].visible = true;	
+				} else {
+					this.tapsP1[t].visible = false;	
+				}
+				if ( t < this.numTapsP2 ) {
+					this.tapsP2[t].visible = true;	
+				} else {
+					this.tapsP2[t].visible = false;	
+				}
 			}
 		}
-		// Refresh tap status!!!
-		for ( var t = 0; t < 3; t++ ) {
-			if ( t < this.numTapsP1 ) {
-				this.tapsP1[t].visible = true;	
-			} else {
-				this.tapsP1[t].visible = false;	
-			}
-			if ( t < this.numTapsP2 ) {
-				this.tapsP2[t].visible = true;	
-			} else {
-				this.tapsP2[t].visible = false;	
-			}
-		}
-		
+	},
+	
+	enableTap: function() {
+		this.tapEnabled = true;
 	},
 		
 	applyImpulse: function( x, y, bug ) {
