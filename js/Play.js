@@ -1,8 +1,8 @@
 var Waves = Waves || {};
  
-Waves.Game = function() {};
+Waves.Play = function() {};
 
-Waves.Game.prototype = {
+Waves.Play.prototype = {
  
   preload: function() {
  

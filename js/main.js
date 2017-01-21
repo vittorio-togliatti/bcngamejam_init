@@ -12,7 +12,7 @@ Waves.game = new Phaser.Game( windowWidth, windowHeight, Phaser.AUTO, '', '', ''
 //Waves.game.state.add('Splash', Waves.Splash);
 Waves.game.state.add( 'Preload', Waves.Preload );
 Waves.game.state.add('Menu', Waves.Menu);
-Waves.game.state.add( 'Game', Waves.Game );
+Waves.game.state.add( 'Play', Waves.Play );
 Waves.game.state.add( 'Winner', Waves.Winner );
 //Waves.game.state.add('Credits', Waves.Credits);
 

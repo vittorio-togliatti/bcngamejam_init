@@ -24,7 +24,7 @@ Waves.Menu.prototype = {
     }, 
  
   onMouseDownCallback: function() {
-     this.state.start('Game');
+     this.state.start('Play');
     }
     
 };
