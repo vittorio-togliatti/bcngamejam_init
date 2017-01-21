@@ -1,8 +1,8 @@
-var SideScroller = SideScroller || {};
+var Waves = Waves || {};
  
-SideScroller.Game = function() {};
+Waves.Game = function() {};
 
-SideScroller.Game.prototype = {
+Waves.Game.prototype = {
  
   preload: function() {
  
@@ -25,6 +25,9 @@ SideScroller.Game.prototype = {
  
   create: function() {
         
+	
+	 this.game.add.sprite( 150, 0, 'play', 0 );
+		
 	  // Game logic
 	  scoreP1 = 0;
 	  scoreP2 = 0;
@@ -127,7 +130,7 @@ SideScroller.Game.prototype = {
 	},
     
     addSidebar1: function( x, y ) {
-		this.sidebar1 = this.sidebars.create( x, y, "sidebar2" );
+		this.sidebar1 = this.sidebars.create( x, y, "sidebar1" );
 		this.game.physics.p2.enable( [ this.sidebar1 ], false );
 		this.sidebar1.body.fixedRotation = true;
 		this.sidebar1.body.static = true;

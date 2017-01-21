@@ -1,9 +1,9 @@
-var SideScroller = SideScroller || {};
+var Waves = Waves || {};
  
-SideScroller.Winner = function() {};
+Waves.Winner = function() {};
 
 
-SideScroller.Winner.prototype = {
+Waves.Winner.prototype = {
  
   preload: function() {
  

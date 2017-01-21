@@ -1,10 +1,10 @@
-var SideScroller = SideScroller || {};
+var Waves = Waves || {};
  
-SideScroller.Boot = function(){};
+Waves.Boot = function(){};
  
 //setting game configuration and loading the assets for the loading screen
  
-SideScroller.Boot.prototype = {
+Waves.Boot.prototype = {
  
   preload: function() {
  

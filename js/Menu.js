@@ -1,9 +1,9 @@
-var SideScroller = SideScroller || {};
+var Waves = Waves || {};
  
-SideScroller.Menu = function() {};
+Waves.Menu = function() {};
 
 
-SideScroller.Menu.prototype = {
+Waves.Menu.prototype = {
  
   preload: function(){
  
