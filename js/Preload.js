@@ -16,17 +16,20 @@ Waves.Preload.prototype = {
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
  
     //load game assets
-    this.load.image('menu', 'jam_img/menu.png');
-	this.load.image('play', 'jam_img/play.jpg');
-	this.load.image('winner', 'jam_img/winner.png');
-    this.load.image('bugP1', 'jam_img/bugP1.png');
-	this.load.image('bugP2', 'jam_img/bugP2.png');
-	this.load.image('island1', 'jam_img/island_1.png');
-    this.load.image('island2', 'jam_img/island_2.png');
-    this.load.image('sidebar1', 'jam_img/sidebarP1.png');
-    this.load.image('sidebar2', 'jam_img/sidebarP2.png');	
-      
-    this.load.spritesheet('ss_rana', 'jam_img/rana.png', 143, 140, 11);
+    this.load.image('menu', 'img/menu.jpg');
+	this.load.image('play', 'img/play.jpg');
+	this.load.image('winner', 'img/winner.png');
+    this.load.image('bugP1', 'img/bugP1.png');
+	this.load.image('bugP2', 'img/bugP2.png');
+	this.load.image('island1', 'img/island1.png');
+    this.load.image('island2', 'img/island2.png');
+    this.load.image('sidebar1', 'img/sidebarP1.png');
+    this.load.image('sidebar2', 'img/sidebarP2.png');
+    this.load.image('borderP1', 'img/borderP1.png');
+    this.load.image('borderP2', 'img/borderP2.png');	
+    this.load.image('tapP1', 'img/tapP1.png');
+    this.load.image('tapP2', 'img/tapP2.png');	
+    this.load.spritesheet('ss_rana', 'img/ss_rana.png', 143, 140, 11);
    
     this.game.load.physics("sprite_physics", "poligonos.json");
   },

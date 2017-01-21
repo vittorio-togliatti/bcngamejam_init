@@ -10,8 +10,8 @@ Waves.Play.prototype = {
         this.game.stage.backgroundColor = '#C9C9C9';
       
         //scaling options
-        //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		//this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
       
        // Start the P2 Physics Engine
         this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -24,7 +24,6 @@ Waves.Play.prototype = {
     },
  
   create: function() {
-        
 	
 	 this.game.add.sprite( 150, 0, 'play', 0 );
 		
@@ -52,18 +51,40 @@ Waves.Play.prototype = {
       this.sidebars = this.game.add.group();
       this.ranas = this.game.add.group();
       
-      //Creo objetos
-      this.addSidebar1(75,300);
-      this.addSidebar2(1125,300);
+      // Creo objetos
+      this.addSidebar1( 75, 300 );
+      this.addSidebar2( 1125, 300 );
 	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
 	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
 	  this.addIsland( 250, windowHeight / 2, "island1" );
 	  this.addIsland( windowWidth - 250, windowHeight / 2, "island2"  );
-      this.addRana(300,100);
+      this.addRana( 300, 100 );
 	  
-      
-      //this.rana = this.game.add.sprite(100, 100, 'ss_rana',0);
-      
+	  var style = { font: "bold 75px Arial", fill: "#7e5f33", boundsAlignH: "center", boundsAlignV: "middle" };	  
+      this.scoreP1Text = this.game.add.text( 48, 70, "0", style );	  
+      this.scoreP2Text = this.game.add.text( 1110, 70, "0", style );
+
+	  // sidebarsPlaying
+	  this.borderP1 = this.game.add.sprite( 0, 0, "borderP1" )
+	  this.borderP2 = this.game.add.sprite( 1050, 0, "borderP2" );
+	  this.borderP2.visible = false;
+	  
+	  // taps
+	  this.numTapsP1 = 3;
+	  this.tapsP1 = [
+		this.game.add.sprite( 40, 247, "tapP1" ),
+		this.game.add.sprite( 62, 247, "tapP1" ),
+		this.game.add.sprite( 84, 247, "tapP1" )
+	  ];
+	  this.numTapsP2 = 0;
+	  this.tapsP2 = [
+		this.game.add.sprite( 1101, 247, "tapP2" ),
+		this.game.add.sprite( 1123, 247, "tapP2" ),
+		this.game.add.sprite( 1145, 247, "tapP2" )
+	  ];
+	  this.tapsP2[0].visible = false;
+	  this.tapsP2[1].visible = false;
+	  this.tapsP2[2].visible = false;
       
 	  // Events
 	  this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
@@ -77,12 +98,14 @@ Waves.Play.prototype = {
             
   },
  
+	/*
   render: function() {
   
-		this.game.debug.text( scoreP1 + " / " + this.bugsP1.children.length, 25, 50, "#000", "20px Courier" );
-		this.game.debug.text( scoreP2 + " / " + this.bugsP2.children.length, 1105, 50, "#000", "20px Courier" );
+		// this.game.debug.text( scoreP1, 50, 100, "#000", "60px Arial" );
+		// this.game.debug.text( scoreP2, 1100, 100, "#000", "60px Arial" );
         
    },
+   */
     
     //functions
 	
@@ -207,7 +230,7 @@ Waves.Play.prototype = {
 		
 		this.waves.clear();
 		this.waves.alpha = 1;
-		this.waves.lineStyle( 1, 0x0000FF, 1 );
+		this.waves.lineStyle( 1, 0x334d50, 1 );
 		this.waves.drawCircle( x, y, 20 );
 		this.waves.drawCircle( x, y, 40 );
 		this.waves.drawCircle( x, y, 80 );
@@ -228,12 +251,35 @@ Waves.Play.prototype = {
 		
 		// Cambio player
 		if ( this.currentPlayer == 1 ) {
-			this.currentPlayer = 2;
+			this.numTapsP1--;
+			if ( this.numTapsP1 == 0 ) { 
+				this.currentPlayer = 2;
+				this.borderP1.visible = false;
+				this.borderP2.visible = true;
+				this.numTapsP2 = 3;
+			}
 		} else { /* this.currentPlayer == 2 */
-			this.currentPlayer = 1;
+			this.numTapsP2--;
+			if ( this.numTapsP2 == 0 ) { 
+				this.currentPlayer = 1;
+				this.borderP1.visible = true;
+				this.borderP2.visible = false;				
+				this.numTapsP1 = 3;
+			}
 		}
-		
-console.log( "--- CURRENT PLAYER: " + this.currentPlayer );		
+		// Refresh tap status!!!
+		for ( var t = 0; t < 3; t++ ) {
+			if ( t < this.numTapsP1 ) {
+				this.tapsP1[t].visible = true;	
+			} else {
+				this.tapsP1[t].visible = false;	
+			}
+			if ( t < this.numTapsP2 ) {
+				this.tapsP2[t].visible = true;	
+			} else {
+				this.tapsP2[t].visible = false;	
+			}
+		}
 		
 	},
 		
@@ -277,12 +323,14 @@ console.log( "--- CURRENT PLAYER: " + this.currentPlayer );
 	onBugP1CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
 		scoreP1++;
+		this.scoreP1Text.text = scoreP1;
 		this.checkWinner();
 	},
 	
 	onBugP2CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
 		scoreP2++;
+		this.scoreP2Text.text = scoreP2;
 		this.checkWinner();
 	},
 	

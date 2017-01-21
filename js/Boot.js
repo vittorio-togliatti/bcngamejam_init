@@ -21,6 +21,7 @@ Waves.Boot.prototype = {
  
     //scaling options
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	//this.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
  
     //physics system arcade
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
