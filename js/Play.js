@@ -61,8 +61,8 @@ Waves.Play.prototype = {
       this.addSidebar2( 1125, 300 );
 	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
 	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
-	  this.addIsland( 250, windowHeight / 2, "island1" );
-	  this.addIsland( windowWidth - 250, windowHeight / 2, "island2"  );
+	  this.addIsland1( 250, windowHeight / 2);
+	  this.addIsland2( windowWidth - 250, windowHeight / 2);
       this.addRana( 300, 100 );
 	  	 
       // sidebarsPlaying
@@ -155,13 +155,30 @@ Waves.Play.prototype = {
 		}
 	},
 	
-	addIsland: function( x, y,island_image) {
-		var island = this.islands.create( x, y, island_image );
+	addIsland1: function( x, y) {
+		var island = this.islands.create( x, y, 'ss_isla1',2 );
+        this.anim_isla1 = island.animations.add('ss_isla1',[0,1,0,1,0,1,2],5);
+    
 		this.game.physics.p2.enable( [ island ], false );
 		island.body.fixedRotation = true;
 		island.body.mass = 3;
 		island.body.setCollisionGroup( this.islandsCollisionGroup );	
-		island.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup,this.sidebarsCollisionGroup, this.ranasCollisionGroup  ] );
+		island.body.collides( [ this.islandsCollisionGroup, this.sidebarsCollisionGroup, this.ranasCollisionGroup  ] );
+        island.body.collides( [ this.bugsP1CollisionGroup, this.bugsP2CollisionGroup, ], this.onCollisionIsla1Yepeee, this );
+		island.checkWorldBounds = true;
+		island.outOfBoundsKill = true;
+	},
+    
+    addIsland2: function( x, y) {
+		var island = this.islands.create( x, y, 'ss_isla2',2 );
+        this.anim_isla2 = island.animations.add('ss_isla2',[0,1,0,1,0,1,2],5);
+        
+		this.game.physics.p2.enable( [ island ], false );
+		island.body.fixedRotation = true;
+		island.body.mass = 3;
+		island.body.setCollisionGroup( this.islandsCollisionGroup );	
+		island.body.collides( [ this.islandsCollisionGroup, this.sidebarsCollisionGroup, this.ranasCollisionGroup  ] );
+        island.body.collides( [ this.bugsP1CollisionGroup, this.bugsP2CollisionGroup, ], this.onCollisionIsla2Yepeee, this );
 		island.checkWorldBounds = true;
 		island.outOfBoundsKill = true;
 	},
@@ -386,21 +403,29 @@ Waves.Play.prototype = {
 			this.checkWinner();
         }
     },	
+    
+    onCollisionIsla1Yepeee: function(){
+        this.anim_isla1.play();
+    },
+    
+    onCollisionIsla2Yepeee: function(){
+        this.anim_isla2.play();
+    },
 	
 	checkWinner: function() {
 		if ( scoreP1 > scoreP2 + this.bugsP2.children.length ) {
 			winner = 1;
-			this.state.start('Winner');
+            this.game.time.events.add(1000, this.goToWinner, this);
 		}
 		if ( scoreP2 > scoreP1 + this.bugsP1.children.length ) {
 			winner = 2;
-			this.state.start('Winner');
+			  this.game.time.events.add(1000, this.goToWinner, this);
 		}
 		if ( scoreP1 === scoreP2 
 			&& this.bugsP1.children.length === 0 
 			&& this.bugsP2.children.length === 0 ) {
 			winner = null;
-			this.state.start('Winner');
+			 this.game.time.events.add(1000, this.goToWinner, this);
 		}
 	},
     
@@ -423,15 +448,11 @@ Waves.Play.prototype = {
         //this.game.time.events.add(2000, this.destroyEmitter, this);
     },
     
-    destroyEmitter: function(){
-             emitter.destroy();
+    goToWinner: function(){
+     this.state.start('Winner');
     }
-	
-	/*
-	areBugsAlive(  ) {
-		
-	}
-	*/
+   
+    
     
 };
 
