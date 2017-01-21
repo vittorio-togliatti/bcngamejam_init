@@ -417,17 +417,17 @@ Waves.Play.prototype = {
 	checkWinner: function() {
 		if ( scoreP1 > scoreP2 + this.bugsP2.children.length ) {
 			winner = 1;
-            this.game.time.events.add(1000, this.goToWinner, this);
+            this.game.time.events.add(2000, this.goToWinner, this);
 		}
 		if ( scoreP2 > scoreP1 + this.bugsP1.children.length ) {
 			winner = 2;
-			  this.game.time.events.add(1000, this.goToWinner, this);
+			  this.game.time.events.add(2000, this.goToWinner, this);
 		}
 		if ( scoreP1 === scoreP2 
 			&& this.bugsP1.children.length === 0 
 			&& this.bugsP2.children.length === 0 ) {
 			winner = null;
-			 this.game.time.events.add(1000, this.goToWinner, this);
+			 this.game.time.events.add(2000, this.goToWinner, this);
 		}
 	},
     
