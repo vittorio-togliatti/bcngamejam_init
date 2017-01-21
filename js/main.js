@@ -33,20 +33,21 @@ var originalWidth = 800;
 //var windowHeight = 1005;
 //var windowWidth = 1920;
 
-var windowHeight = 600;
-var windowWidth = 1000;
+var cubo = 200;
+var windowWidth = 1200; //cubo * 6;
+var windowHeight = 600; // cubo * 3;
 
 //var currentScaleFactor = windowHeight / originalHeight;
 //    windowHeight = originalHeight;
 //    windowWidth = windowWidth / currentScaleFactor;
    
-SideScroller.game = new Phaser.Game( windowWidth, windowHeight, Phaser.AUTO, '','','', false, '');
+SideScroller.game = new Phaser.Game( windowWidth, windowHeight, Phaser.AUTO, '', '', '', false, '' );
  
 //SideScroller.game.state.add('Boot', SideScroller.Boot);
 //SideScroller.game.state.add('Splash', SideScroller.Splash);
-SideScroller.game.state.add('Preload', SideScroller.Preload);
+SideScroller.game.state.add( 'Preload', SideScroller.Preload );
 //SideScroller.game.state.add('Menu', SideScroller.Menu);
-SideScroller.game.state.add('Game', SideScroller.Game);
+SideScroller.game.state.add( 'Game', SideScroller.Game );
 //SideScroller.game.state.add('Credits', SideScroller.Credits);
 
 SideScroller.game.state.start('Preload');
