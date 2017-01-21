@@ -34,9 +34,10 @@ Waves.Preload.prototype = {
     this.load.image('tapP1', 'img/tapP1.png');
     this.load.image('tapP2', 'img/tapP2.png');	
     this.load.image('sidebarBugP1', 'img/sidebarBugP1.png');
-    this.load.image('sidebarBugP2', 'img/sidebarBugP2.png');	
+    this.load.image('sidebarBugP2', 'img/sidebarBugP2.png');
+	
     this.load.spritesheet('ss_rana', 'img/ss_rana.png', 143, 140, 11);
-
+	this.load.spritesheet('ss_waves', 'img/ss_waves.png', 201, 201, 8 );
     this.load.spritesheet('ss_isla1', 'img/anim_isla1.png', 100, 100, 3);
     this.load.spritesheet('ss_isla2', 'img/anim_isla2.png', 100, 100, 3);
 
