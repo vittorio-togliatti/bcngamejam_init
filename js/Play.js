@@ -59,10 +59,12 @@ Waves.Play.prototype = {
       // Creo objetos
       this.addSidebar1( 75, 300 );
       this.addSidebar2( 1125, 300 );
+
 	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
 	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
 	  this.addIsland1( 250, windowHeight / 2);
 	  this.addIsland2( windowWidth - 250, windowHeight / 2);
+
       this.addRana( 300, 100 );
 	  	 
       // sidebarsPlaying
@@ -96,15 +98,15 @@ Waves.Play.prototype = {
 	  
 	  this.sidebarBugP1 = this.game.add.sprite( -200, 300, "sidebarBugP1" );
 	  this.sidebarBugP1TweenIn = this.game.add.tween( this.sidebarBugP1 )
-		.to( { x: -20 }, 1500, Phaser.Easing.Elastic.Out )
-		.delay( 500 );
+		.to( { x: -20 }, 1000, Phaser.Easing.Elastic.Out )
+		.delay( 250 );
 	  this.sidebarBugP1TweenIn.onComplete.add( this.enableTap, this );
 	  this.sidebarBugP1TweenOut = this.game.add.tween( this.sidebarBugP1 )
 		.to( { x: -200 }, 1000, null );
 	  this.sidebarBugP2 = this.game.add.sprite( 1200, 300, "sidebarBugP2" );
 	  this.sidebarBugP2TweenIn = this.game.add.tween( this.sidebarBugP2 )
-		.to( { x: 1020 }, 1500, Phaser.Easing.Elastic.Out )
-		.delay( 500 );
+		.to( { x: 1020 }, 1000, Phaser.Easing.Elastic.Out )
+		.delay( 250 );
 	  this.sidebarBugP2TweenIn.onComplete.add( this.enableTap, this );
 	  this.sidebarBugP2TweenOut = this.game.add.tween( this.sidebarBugP2 )
 		.to( { x: 1200 }, 1000, null );	  
