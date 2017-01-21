@@ -29,6 +29,8 @@ Waves.Preload.prototype = {
     this.load.image('borderP2', 'img/borderP2.png');	
     this.load.image('tapP1', 'img/tapP1.png');
     this.load.image('tapP2', 'img/tapP2.png');	
+    this.load.image('sidebarBugP1', 'img/sidebarBugP1.png');
+    this.load.image('sidebarBugP2', 'img/sidebarBugP2.png');	
     this.load.spritesheet('ss_rana', 'img/ss_rana.png', 143, 140, 11);
    
     this.game.load.physics("sprite_physics", "poligonos.json");
