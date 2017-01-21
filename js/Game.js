@@ -29,6 +29,7 @@ SideScroller.Game.prototype = {
 	  // Game logic
 	  this.scoreP1 = 0;
 	  this.scoreP2 = 0;
+	  this.currentPlayer = 1;
   
 	  // Waves
 	  this.waves = this.game.add.graphics( 0, 0 );
@@ -62,8 +63,8 @@ SideScroller.Game.prototype = {
  
   render: function() {
   
-		this.game.debug.text( "SCORE 01: " + this.scoreP1 + " / Bugs alive: " + this.bugsP1.children.length, 20, 20, "#000", "20px Courier" );
-		this.game.debug.text( "SCORE 02: " + this.scoreP2 + " / Bugs alive: " + this.bugsP2.children.length, 20, 40, "#000", "20px Courier" );
+		this.game.debug.text( this.scoreP1 /* + " / " + this.bugsP1.children.length */, 75, 50, "#000", "40px Courier" );
+		this.game.debug.text( this.scoreP2 /* + " / " + this.bugsP2.children.length */, 1125, 50, "#000", "40px Courier" );
         
    },
     
@@ -98,42 +99,40 @@ SideScroller.Game.prototype = {
 	
 	onKeyDownCallback: function( keyCode ) {
 	
-		var keyCode = this.game.input.keyboard.event.keyCode;	
-	
-console.log( keyCode );
+		var keyCode = this.game.input.keyboard.event.keyCode;
 		
 		//
 		// Top row
 		//
 		if ( keyCode == 38 ) { /* Up */
-			this.createSplash( cubo, 0 );
+			this.createSplash( 150, 0 );
 		} else if ( keyCode == 40 ) { /* Down */
-			this.createSplash( cubo * 2, 0 );
+			this.createSplash( 450, 0 );
 		} else if ( keyCode == 37 ) { /* Left */
-			this.createSplash( cubo * 3, 0 );
+			this.createSplash( 750, 0 );
 		} else if ( keyCode == 39 ) { /* Right */
-			this.createSplash( cubo * 4, 0 );
+			this.createSplash( 1050, 0 );
 		//
 		// Middle row
 		// 
-		} else if ( keyCode == 32 ) { /* Space */
-			this.createSplash( cubo, 300 );
-		// Mouse click <-------------------------------
 		} else if ( keyCode == 87 ) { /* w */
-			this.createSplash( cubo * 3, 300 ); 
+			this.createSplash( 150, 300 ); 		
+		} else if ( keyCode == 32 ) { /* space */
+			this.createSplash( 450, 300 );
+		// Mouse click <------------------------------- see onMouseDownCallback
 		} else if ( keyCode == 65 ) { /* a */
-			this.createSplash( cubo * 4, 300 );
+			this.createSplash( 1050, 300 );
 		//
 		// Bottom row
  		//
 		} else if ( keyCode == 83 ) { /* s */
-			this.createSplash( cubo, 600 );		
+			this.createSplash( 150, 600 );
 		} else if ( keyCode == 68 ) { /* d */
-			this.createSplash( cubo * 2, 600 );
+			this.createSplash( 450, 600 );
 		} else if ( keyCode == 70 ) { /* f */
-			this.createSplash( cubo * 3, 600 );
+			this.createSplash( 750, 600 );
 		} else if ( keyCode == 71 ) { /* g */
-			this.createSplash( cubo * 40, 600 );
+			this.createSplash( 1050, 600 );
 		//
 		// 
 		//
@@ -144,9 +143,14 @@ console.log( keyCode );
 	},
 
     onMouseDownCallback: function() {
+		// Test mouse clicks!
 		var x = this.game.input.activePointer.x;
 		var y = this.game.input.activePointer.y;
 		this.createSplash( x, y );
+		/*
+		// Makey Makey
+		this.createSplash( 750, 300 );
+		*/
     },
 	
 	createSplash: function( x, y ) {
@@ -170,11 +174,20 @@ console.log( keyCode );
 			this.applyImpulse( x, y, this.bugsP2.children[j] );
 		}
 		
+		// Cambio player
+		if ( this.currentPlayer == 1 ) {
+			this.currentPlayer = 2;
+		} else { /* this.currentPlayer == 2 */
+			this.currentPlayer = 1;
+		}
+		
+console.log( "--- CURRENT PLAYER: " + this.currentPlayer );		
+		
 	},
 		
 	applyImpulse: function( x, y, bug ) {
 	
-        var distancia = this.game.input.activePointer.position.distance( bug.body );
+        var distancia = this.distance( x, y, bug.body.x, bug.body.y );
    
         var bichox = bug.body.x;
         var bichoy = bug.body.y;
@@ -186,7 +199,7 @@ console.log( keyCode );
      
         var impNormalized = this.normalize(impulso);
         
-        if ( distancia < 400 ){
+        if ( distancia < 400 ) {
             var fuerza = (400 - distancia) * 0.02;
             var impulse = [impNormalized.x * fuerza,impNormalized.y * fuerza];
             bug.body.applyImpulse(impulse, 0, 0); 
@@ -194,8 +207,10 @@ console.log( keyCode );
 		
 	},
 	
-	distance: function( ) {
-		
+	distance: function( x1, y1, x2, y2 ) {
+		var x = x1 - x2;
+		var y = y1 - y2;
+		return Math.sqrt( x * x + y * y );	
 	},
     
     normalize: function(vector) {
