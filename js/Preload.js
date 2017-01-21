@@ -37,7 +37,9 @@ SideScroller.Preload.prototype = {
     
     this.load.image('bugP1', 'jam_img/bugP1.png');
 	this.load.image('bugP2', 'jam_img/bugP2.png');
-	this.load.image('island', 'jam_img/island.png');	
+	this.load.image('island', 'jam_img/island.png');
+    this.load.image('sidebar1', 'jam_img/sidebar.jpg');
+    this.load.image('sidebar2', 'jam_img/sidebar.jpg');	
    
   },
  
