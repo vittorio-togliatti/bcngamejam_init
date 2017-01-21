@@ -2,10 +2,9 @@ var SideScroller = SideScroller || {};
  
 SideScroller.Game = function() {};
 
-
 SideScroller.Game.prototype = {
  
-  preload: function(){
+  preload: function() {
  
         this.game.time.advancedTiming = true;
         this.game.stage.backgroundColor = '#C9C9C9';
@@ -27,8 +26,9 @@ SideScroller.Game.prototype = {
   create: function() {
         
 	  // Game logic
-	  this.scoreP1 = 0;
-	  this.scoreP2 = 0;
+	  scoreP1 = 0;
+	  scoreP2 = 0;
+	  winner = null;
 	  this.currentPlayer = 1;
   
 	  // Waves
@@ -76,8 +76,8 @@ SideScroller.Game.prototype = {
  
   render: function() {
   
-		this.game.debug.text( this.scoreP1 /* + " / " + this.bugsP1.children.length */, 75, 50, "#000", "40px Courier" );
-		this.game.debug.text( this.scoreP2 /* + " / " + this.bugsP2.children.length */, 1125, 50, "#000", "40px Courier" );
+		this.game.debug.text( scoreP1 + " / " + this.bugsP1.children.length, 25, 50, "#000", "20px Courier" );
+		this.game.debug.text( scoreP2 + " / " + this.bugsP2.children.length, 1105, 50, "#000", "20px Courier" );
         
    },
     
@@ -189,13 +189,6 @@ SideScroller.Game.prototype = {
 		
 	},
 
-    onCollisionRana: function(rana,bug) {
-		if (bug.sprite){
-            bug.sprite.destroy();
-            this.anim_rana.play();
-        }
-    },
-
     onMouseDownCallback: function() {
 		// Test mouse clicks!
 		var x = this.game.input.activePointer.x;
@@ -280,13 +273,46 @@ console.log( "--- CURRENT PLAYER: " + this.currentPlayer );
 	
 	onBugP1CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
-		this.scoreP1++;
+		scoreP1++;
+		this.checkWinner();
 	},
 	
 	onBugP2CollidingIsland: function( bug, island ) {
 		bug.sprite.destroy();
-		this.scoreP2++;
+		scoreP2++;
+		this.checkWinner();
+	},
+	
+    onCollisionRana: function( rana, bug ) {
+		if ( bug.sprite ) {
+            bug.sprite.destroy();
+            this.anim_rana.play();
+			this.checkWinner();
+        }
+    },	
+	
+	checkWinner: function() {
+		if ( scoreP1 > scoreP2 + this.bugsP2.children.length ) {
+			winner = 1;
+			this.state.start('Winner');
+		}
+		if ( scoreP2 > scoreP1 + this.bugsP1.children.length ) {
+			winner = 2;
+			this.state.start('Winner');
+		}
+		if ( scoreP1 === scoreP2 
+			&& this.bugsP1.children.length === 0 
+			&& this.bugsP2.children.length === 0 ) {
+			winner = null;
+			this.state.start('Winner');
+		}
 	}
+	
+	/*
+	areBugsAlive(  ) {
+		
+	}
+	*/
     
 };
 

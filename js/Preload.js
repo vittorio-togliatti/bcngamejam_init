@@ -16,7 +16,8 @@ SideScroller.Preload.prototype = {
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
  
     //load game assets
-    this.load.image('bkg_menu', 'jam_img/main.png');
+    this.load.image('menu', 'jam_img/menu.png');
+	this.load.image('winner', 'jam_img/winner.png');
     this.load.image('bugP1', 'jam_img/bugP1.png');
 	this.load.image('bugP2', 'jam_img/bugP2.png');
 	this.load.image('island1', 'jam_img/island_1.png');

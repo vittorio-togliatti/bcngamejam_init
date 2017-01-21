@@ -10,7 +10,7 @@ SideScroller.Menu.prototype = {
     },
  
   create: function() {
-    this.game.add.sprite(0, 0, 'bkg_menu',0);
+    this.game.add.sprite( 0, 0, 'menu', 0 );
       
     this.input.onDown.add( this.onMouseDownCallback, this );
     }, 
