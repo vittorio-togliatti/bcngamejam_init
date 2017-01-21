@@ -25,7 +25,7 @@ SideScroller.Game.prototype = {
     },
  
   create: function() {
-  
+        
 	  // Game logic
 	  this.scoreP1 = 0;
 	  this.scoreP2 = 0;
@@ -38,16 +38,20 @@ SideScroller.Game.prototype = {
 	  this.bugsP1CollisionGroup = this.game.physics.p2.createCollisionGroup();
 	  this.bugsP2CollisionGroup = this.game.physics.p2.createCollisionGroup();
 	  this.islandsCollisionGroup = this.game.physics.p2.createCollisionGroup();
+      this.sidebarsCollisionGroup = this.game.physics.p2.createCollisionGroup();
 	  this.game.physics.p2.updateBoundsCollisionGroup();
 	  
 	  // Grupos
 	  this.bugsP1 = this.game.add.group();
 	  this.bugsP2 = this.game.add.group();
-	  this.islands = this.game.add.group();	  
+	  this.islands = this.game.add.group();	
+      this.sidebars = this.game.add.group();
+      this.addSidebar1(75,300);
+      this.addSidebar2(1125,300);
 	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
 	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
-	  this.addIsland( 150, windowHeight / 2 );
-	  this.addIsland( windowWidth - 150, windowHeight / 2 );
+	  this.addIsland( 250, windowHeight / 2 );
+	  this.addIsland( windowWidth - 250, windowHeight / 2 );
 	  
 	  // Events
 	  this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
@@ -72,14 +76,14 @@ SideScroller.Game.prototype = {
 	
 	addBugs: function( num, img, group, collisionGroup, onCollisionCallback ) {
 		for ( var i = 0; i < num; i++ )  {
-			var x = Math.random() * windowWidth;
+			var x = 450 + Math.random() * 300;
 			var y = Math.random() * windowHeight;
 			var bug = group.create( x, y, img );
 			this.game.physics.p2.enable( [ bug ], false );
 			bug.body.fixedRotation = false;
 			bug.body.setCollisionGroup( collisionGroup );
 			bug.body.collides( [ this.islandsCollisionGroup ], onCollisionCallback, this );
-			bug.body.collides( [ this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ], null, this );
+			bug.body.collides( [ this.bugsP1CollisionGroup, this.bugsP2CollisionGroup,this.sidebarsCollisionGroup ], null, this );
 			bug.body.damping = 0.6;
 			bug.checkWorldBounds = true;
 			bug.outOfBoundsKill = true;
@@ -92,9 +96,27 @@ SideScroller.Game.prototype = {
 		island.body.fixedRotation = true;
 		island.body.mass = 3;
 		island.body.setCollisionGroup( this.islandsCollisionGroup );	
-		island.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ] );
+		island.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup,this.sidebarsCollisionGroup  ] );
 		island.checkWorldBounds = true;
 		island.outOfBoundsKill = true;
+	},
+    
+    addSidebar1: function( x, y ) {
+		this.sidebar1 = this.sidebars.create( x, y, "sidebar2" );
+		this.game.physics.p2.enable( [ this.sidebar1 ], false );
+		this.sidebar1.body.fixedRotation = true;
+		this.sidebar1.body.static = true;
+		this.sidebar1.body.setCollisionGroup( this.sidebarsCollisionGroup );	
+		this.sidebar1.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ] );
+	},
+    
+    addSidebar2: function( x, y ) {
+		this.sidebar2 = this.sidebars.create( x, y, "sidebar2" );
+		this.game.physics.p2.enable( [ this.sidebar2 ], false );
+		this.sidebar2.body.fixedRotation = true;
+		this.sidebar2.body.static = true;
+		this.sidebar2.body.setCollisionGroup( this.sidebarsCollisionGroup );	
+		this.sidebar2.body.collides( [ this.islandsCollisionGroup, this.bugsP1CollisionGroup, this.bugsP2CollisionGroup ] );
 	},
 	
 	onKeyDownCallback: function( keyCode ) {
