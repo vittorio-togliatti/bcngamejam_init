@@ -38,9 +38,6 @@ Waves.Play.prototype = {
 	  winner = null;
 	  this.currentPlayer = 1;
   
-	  // Waves
-	  this.waves = this.game.add.graphics( 0, 0 );
-  
 	  // Collision groups
 	  this.bugsP1CollisionGroup = this.game.physics.p2.createCollisionGroup();
 	  this.bugsP2CollisionGroup = this.game.physics.p2.createCollisionGroup();
@@ -111,6 +108,29 @@ Waves.Play.prototype = {
 	  this.sidebarBugP2TweenOut = this.game.add.tween( this.sidebarBugP2 )
 		.to( { x: 1200 }, 1000, null );	  
 	  
+	  // Waves
+	  // this.waves = this.game.add.graphics( 0, 0 ); 
+	  this.waves = [
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 )
+	  ];
+	  this.waves[0].anchor.set( 0.5 );
+	  this.waves[1].anchor.set( 0.5 );
+	  this.waves[2].anchor.set( 0.5 ); 
+	  this.wave_animations = [
+			this.waves[0].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[1].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[2].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 )
+	  ];
+	  
+	  /*
+	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
+	  this.waves.anchor.set( 0.5 );
+	  this.anim_waves = this.waves.animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6 ], 25 );
+	  //this.waves.visible = true;	
+		*/	  
+	  
 	  // Lanzamos ya el tween del chinche P1
 	  this.sidebarBugP1TweenIn.start();
       
@@ -122,7 +142,7 @@ Waves.Play.prototype = {
  
   update: function() {
      
-	this.waves.alpha -= 0.025;
+	//this.waves.alpha -= 0.025;
             
   },
  
@@ -278,13 +298,22 @@ Waves.Play.prototype = {
 	createSplash: function( x, y ) {
 		if ( this.tapEnabled ) {
 		
+			/*
 			this.waves.clear();
 			this.waves.alpha = 1;
 			this.waves.lineStyle( 1, 0x334d50, 1 );
 			this.waves.drawCircle( x, y, 20 );
 			this.waves.drawCircle( x, y, 40 );
 			this.waves.drawCircle( x, y, 80 );
-			this.waves.drawCircle( x, y, 160 );		
+			this.waves.drawCircle( x, y, 160 );
+			*/
+			/*
+			this.waves[ ] 
+			this.waves.x = x;
+			this.waves.y = y;
+			//this.waves.visible = true;			
+			this.anim_waves.play();
+			*/
 			
 			this.applyImpulse( x, y, this.islands.children[0] );
 			this.applyImpulse( x, y, this.islands.children[1] );
@@ -302,6 +331,9 @@ Waves.Play.prototype = {
 			// Cambio player
 			if ( this.currentPlayer == 1 ) {
 				this.numTapsP1--;
+				this.waves[ this.numTapsP1 ].x = x;
+				this.waves[ this.numTapsP1 ].y = y;
+				this.wave_animations[ this.numTapsP1 ].play();
 				if ( this.numTapsP1 == 0 ) {
 					this.tapEnabled = false;
 					this.currentPlayer = 2;
@@ -313,6 +345,9 @@ Waves.Play.prototype = {
 				}
 			} else { /* this.currentPlayer == 2 */
 				this.numTapsP2--;
+				this.waves[ this.numTapsP2 ].x = x;
+				this.waves[ this.numTapsP2 ].y = y;
+				this.wave_animations[ this.numTapsP2 ].play();				
 				if ( this.numTapsP2 == 0 ) {
 					this.tapEnabled = false;			
 					this.currentPlayer = 1;
