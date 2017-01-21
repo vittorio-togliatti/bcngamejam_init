@@ -190,8 +190,10 @@ SideScroller.Game.prototype = {
 	},
 
     onCollisionRana: function(rana,bug) {
-        this.anim_rana.play();
-		bug.sprite.destroy();
+		if (bug.sprite){
+            bug.sprite.destroy();
+            this.anim_rana.play();
+        }
     },
 
     onMouseDownCallback: function() {

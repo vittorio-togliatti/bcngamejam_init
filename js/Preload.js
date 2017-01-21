@@ -31,7 +31,7 @@ SideScroller.Preload.prototype = {
  
   create: function() {
       //scaling options
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        //this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.state.start('Menu');
   }
  
