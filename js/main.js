@@ -46,7 +46,7 @@ SideScroller.game = new Phaser.Game( windowWidth, windowHeight, Phaser.AUTO, '',
 //SideScroller.game.state.add('Boot', SideScroller.Boot);
 //SideScroller.game.state.add('Splash', SideScroller.Splash);
 SideScroller.game.state.add( 'Preload', SideScroller.Preload );
-//SideScroller.game.state.add('Menu', SideScroller.Menu);
+SideScroller.game.state.add('Menu', SideScroller.Menu);
 SideScroller.game.state.add( 'Game', SideScroller.Game );
 //SideScroller.game.state.add('Credits', SideScroller.Credits);
 

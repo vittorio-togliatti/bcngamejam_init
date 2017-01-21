@@ -7,44 +7,32 @@ SideScroller.Preload = function(){};
 SideScroller.Preload.prototype = {
  
   preload: function() {
-      
-    //show loading screen
-    //this.bkg = this.game.add.sprite(0, 0,  'preloadbkg');
-      
-//    this.preloadBar = this.add.sprite(this.game.world.centerX-51, this.game.world.centerY-10, 'preloadbar');
-//    this.preloadBar.anchor.setTo(0.0);
-//    this.preloadBar.scale.setTo(2.1,2.7);
-// 
-//    this.load.setPreloadSprite(this.preloadBar);
-      
-    //Load saved data
-//    if (localStorage.getItem('gameData') == null){
-//        
-//        var gameData = {'continentCompleted':0,'questionLevel':0};
-//        localStorage.setItem("gameData", JSON.stringify(gameData));
-//      
-//	   } else {
-//            this.dataObj = JSON.parse(localStorage.getItem('gameData'));
-//        }
- 
-    //load game assets
-      
     
+      //Ejemplos
+
     //this.load.spritesheet('btn_continuar', 'img/common/btn_continuar.png', 150, 38, 2);
     //this.load.image('atras_negro', 'img/common/btn_atras_negro.png');
     //this.load.audio('explosion', 'audio/explosion.ogg');
     //this.game.load.physics("sprite_physics", "balloon.json");     //Poligonos
-    
+ 
+    //load game assets
+    this.load.image('bkg_menu', 'jam_img/main.png');
     this.load.image('bugP1', 'jam_img/bugP1.png');
 	this.load.image('bugP2', 'jam_img/bugP2.png');
-	this.load.image('island', 'jam_img/island.png');
+	this.load.image('island1', 'jam_img/island_1.png');
+    this.load.image('island2', 'jam_img/island_2.png');
     this.load.image('sidebar1', 'jam_img/sidebar.jpg');
     this.load.image('sidebar2', 'jam_img/sidebar.jpg');	
+      
+    this.load.spritesheet('ss_rana', 'jam_img/rana.png', 143, 140, 11);
    
+    this.game.load.physics("sprite_physics", "poligonos.json");
   },
  
   create: function() {
-      this.state.start('Game');
+      //scaling options
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      this.state.start('Menu');
   }
  
 };

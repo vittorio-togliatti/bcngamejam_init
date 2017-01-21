@@ -10,12 +10,9 @@ SideScroller.Menu.prototype = {
     },
  
   create: function() {
-    this.game.stage.backgroundColor = '#000000';
-    this.game.world.setBounds(0, 0, windowWidth, windowHeight);
-    
-      //this.clicAudio = this.add.audio('audio_button'); 
-    //this.bkg = this.game.add.sprite(0, 0,  'portada');
-    
+    this.game.add.sprite(0, 0, 'bkg_menu',0);
+      
+    this.input.onDown.add( this.onMouseDownCallback, this );
     }, 
  
   update: function() {
@@ -24,6 +21,10 @@ SideScroller.Menu.prototype = {
  
   render: function(){
         
+    }, 
+ 
+  onMouseDownCallback: function() {
+     this.state.start('Game');
     }
     
 };

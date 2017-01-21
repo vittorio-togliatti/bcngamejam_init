@@ -1,0 +1,25 @@
+{ 
+    
+    "island": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   3, 43  ,  18, 20  ,  72, 95  ,  40, 100  ,  4, 82  ]
+        } ,
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   95, 71  ,  72, 95  ,  18, 20  ,  55, 0  ,  95, 23  ]
+        }
+    ]
+    , 
+    "rana": [
+        
+        {
+            "density": 2, "friction": 0, "bounce": 0, 
+            "filter": { "categoryBits": 1, "maskBits": 65535 },
+            "shape": [   100, 49  ,  110, 71  ,  99, 102  ,  77, 110  ,  49, 105  ,  31, 75  ,  43, 47  ,  73, 34  ]
+        }
+    ]
+}
