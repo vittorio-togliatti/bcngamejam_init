@@ -90,23 +90,6 @@ Waves.Play.prototype = {
 
       this.addRana( 300, 100 );
 	  
-	  // taps
-	  this.numTapsP1 = 3;
-	  this.tapsP1 = [
-		this.game.add.sprite( 40, 247, "tapP1" ),
-		this.game.add.sprite( 62, 247, "tapP1" ),
-		this.game.add.sprite( 84, 247, "tapP1" )
-	  ];
-	  this.numTapsP2 = 0;
-	  this.tapsP2 = [
-		this.game.add.sprite( 1101, 247, "tapP2" ),
-		this.game.add.sprite( 1123, 247, "tapP2" ),
-		this.game.add.sprite( 1145, 247, "tapP2" )
-	  ];
-	  this.tapsP2[0].visible = false;
-	  this.tapsP2[1].visible = false;
-	  this.tapsP2[2].visible = false; 
-	  
 	  /*
 	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
 	  this.waves.anchor.set( 0.5 );
@@ -157,6 +140,23 @@ Waves.Play.prototype = {
 	  this.sidebarBugP2TweenIn.onComplete.add( this.enableTap, this );
 	  this.sidebarBugP2TweenOut = this.game.add.tween( this.sidebarBugP2 )
 		.to( { x: 1200 }, 1000, null );	 		
+	  
+	  // taps
+	  this.numTapsP1 = 3;
+	  this.tapsP1 = [
+		this.game.add.sprite( 40, 247, "tapP1" ),
+		this.game.add.sprite( 62, 247, "tapP1" ),
+		this.game.add.sprite( 84, 247, "tapP1" )
+	  ];
+	  this.numTapsP2 = 0;
+	  this.tapsP2 = [
+		this.game.add.sprite( 1101, 247, "tapP2" ),
+		this.game.add.sprite( 1123, 247, "tapP2" ),
+		this.game.add.sprite( 1145, 247, "tapP2" )
+	  ];
+	  this.tapsP2[0].visible = false;
+	  this.tapsP2[1].visible = false;
+	  this.tapsP2[2].visible = false; 	  
 	  
 	  // Lanzamos ya el tween del chinche P1
 	  this.sidebarBugP1TweenIn.start();

@@ -28,8 +28,6 @@ Waves.Preload.prototype = {
 	this.load.image('winnerPointerEvents', 'img/winnerPointerEvents.jpg');
     this.load.image('bugP1', 'img/bugP1.png');
 	this.load.image('bugP2', 'img/bugP2.png');
-	this.load.image('island1', 'img/island1.png');
-    this.load.image('island2', 'img/island2.png');
     this.load.image('sidebarP1MakeyMakey', 'img/sidebarP1MakeyMakey.png');
 	this.load.image('sidebarP1PointerEvents', 'img/sidebarP1PointerEvents.png');
     this.load.image('sidebarP2MakeyMakey', 'img/sidebarP2MakeyMakey.png');
