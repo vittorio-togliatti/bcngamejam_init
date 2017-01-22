@@ -31,16 +31,21 @@ Waves.Play.prototype = {
     this.audio_rana  = this.add.audio('audio_rana');
     this.audio_weheee  = this.add.audio('audio_weheee');
       
+
 	   this.game.add.sprite( 150, 0, 'play', 0 );
         this.addPez();
         this.anim_pez.play(5,true);
       
        this.pezTween = this.game.add.tween( this.pez );
       this.pezTweenAngle = this.game.add.tween( this.pez );
-		
-      
-      
-    
+
+
+	 if ( DEVICE == MOUSE ) {
+		this.game.add.sprite( 150, 0, 'play4Mouse', 0 );
+	 } else if ( DEVICE == MAKEY_MAKEY ){
+		this.game.add.sprite( 150, 0, 'play4MakeyMakey', 0 );
+	 }
+
 		
 	  // Game logic
 	  scoreP1 = 0;
@@ -67,8 +72,8 @@ Waves.Play.prototype = {
       this.addSidebar1( 75, 300 );
       this.addSidebar2( 1125, 300 );
 
-	  this.addBugs( 5, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
-	  this.addBugs( 5, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
+	  this.addBugs( 1, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
+	  this.addBugs( 1, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
 	  this.addIsland1( 250, windowHeight / 2);
 	  this.addIsland2( windowWidth - 250, windowHeight / 2);
 
@@ -268,58 +273,64 @@ Waves.Play.prototype = {
 	
 	onKeyDownCallback: function( keyCode ) {
 	
-		var keyCode = this.game.input.keyboard.event.keyCode;
+		if ( DEVICE == MAKEY_MAKEY ) {
 		
-		//
-		// Top row
-		//
-		if ( keyCode == 38 ) { /* Up */
-			this.createSplash( 150, 0 );
-		} else if ( keyCode == 40 ) { /* Down */
-			this.createSplash( 450, 0 );
-		} else if ( keyCode == 37 ) { /* Left */
-			this.createSplash( 750, 0 );
-		} else if ( keyCode == 39 ) { /* Right */
-			this.createSplash( 1050, 0 );
-		//
-		// Middle row
-		// 
-		} else if ( keyCode == 87 ) { /* w */
-			this.createSplash( 150, 300 ); 		
-		} else if ( keyCode == 32 ) { /* space */
-			this.createSplash( 450, 300 );
-		// Mouse click <------------------------------- see onMouseDownCallback
-		} else if ( keyCode == 65 ) { /* a */
-			this.createSplash( 1050, 300 );
-		//
-		// Bottom row
- 		//
-		} else if ( keyCode == 83 ) { /* s */
-			this.createSplash( 150, 600 );
-		} else if ( keyCode == 68 ) { /* d */
-			this.createSplash( 450, 600 );
-		} else if ( keyCode == 70 ) { /* f */
-			this.createSplash( 750, 600 );
-		} else if ( keyCode == 71 ) { /* g */
-			this.createSplash( 1050, 600 );
-		//
-		// 
-		//
-		}  else {
-			// NOP!
+			var keyCode = this.game.input.keyboard.event.keyCode;
+			
+			//
+			// Top row
+			//
+			if ( keyCode == 38 ) { /* Up */
+				this.createSplash( 150, 0 );
+			} else if ( keyCode == 40 ) { /* Down */
+				this.createSplash( 450, 0 );
+			} else if ( keyCode == 37 ) { /* Left */
+				this.createSplash( 750, 0 );
+			} else if ( keyCode == 39 ) { /* Right */
+				this.createSplash( 1050, 0 );
+			//
+			// Middle row
+			// 
+			} else if ( keyCode == 87 ) { /* w */
+				this.createSplash( 150, 300 ); 		
+			} else if ( keyCode == 32 ) { /* space */
+				this.createSplash( 450, 300 );
+			// Mouse click <------------------------------- see onMouseDownCallback
+			} else if ( keyCode == 65 ) { /* a */
+				this.createSplash( 1050, 300 );
+			//
+			// Bottom row
+			//
+			} else if ( keyCode == 83 ) { /* s */
+				this.createSplash( 150, 600 );
+			} else if ( keyCode == 68 ) { /* d */
+				this.createSplash( 450, 600 );
+			} else if ( keyCode == 70 ) { /* f */
+				this.createSplash( 750, 600 );
+			} else if ( keyCode == 71 ) { /* g */
+				this.createSplash( 1050, 600 );
+			//
+			// 
+			//
+			}  else {
+				// NOP!
+			}
 		}
 		
 	},
 
     onMouseDownCallback: function() {
 		// Test mouse clicks!
-		var x = this.game.input.activePointer.x;
-		var y = this.game.input.activePointer.y;
-		this.createSplash( x, y );
-		/*
-		// Makey Makey
-		this.createSplash( 750, 300 );
-		*/
+		if ( DEVICE == MOUSE ) { /* La variable DEVICE se modifica en main.js */
+			var x = this.game.input.activePointer.x;
+			var y = this.game.input.activePointer.y;
+			this.createSplash( x, y );
+		} else if ( DEVICE == MAKEY_MAKEY ) {
+			// Makey Makey
+			this.createSplash( 750, 300 );
+		} else {
+			// KEYBOARD
+		}
     },
 	
 	createSplash: function( x, y ) {
@@ -527,7 +538,6 @@ Waves.Play.prototype = {
     goToWinner: function(){
      this.state.start('Winner');
     }
-   
     
     
 };
