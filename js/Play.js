@@ -253,7 +253,7 @@ Waves.Play.prototype = {
 	
 	addRana: function( x, y ) {
 		var rana = this.ranas.create( x, y, "ss_rana",0);
-        this.anim_rana = rana.animations.add('ss_rana',[1,2,3,4,5,6,7,8,9,10],30);
+      
 		this.game.physics.p2.enable([rana],false);
         rana.body.clearShapes();
         rana.body.loadPolygon("sprite_physics", "rana");
@@ -265,6 +265,9 @@ Waves.Play.prototype = {
         rana.body.collides( [ this.bugsP1CollisionGroup,this.bugsP2CollisionGroup ], this.onCollisionRana, this );
 		rana.checkWorldBounds = true;
 		//rana.outOfBoundsKill = true;
+        
+        
+        rana.body.anim_rana = rana.animations.add('ss_rana',[1,2,3,4,5,6,7,8,9,10],30);
 	},
     
     addSidebar1: function( x, y ) {
@@ -507,7 +510,7 @@ Waves.Play.prototype = {
 		if ( bug.sprite ) {
             this.runBugEmitter(bug.sprite.body.x,bug.sprite.body.y);
             bug.sprite.destroy();
-            this.anim_rana.play();
+            rana.sprite.body.anim_rana.play();
             this.audio_rana.play();
 			this.checkWinner();
         }
