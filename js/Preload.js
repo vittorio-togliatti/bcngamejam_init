@@ -40,6 +40,7 @@ Waves.Preload.prototype = {
 	this.load.spritesheet('ss_waves', 'img/ss_waves.png', 201, 201, 8 );
     this.load.spritesheet('ss_isla1', 'img/anim_isla1.png', 100, 100, 3);
     this.load.spritesheet('ss_isla2', 'img/anim_isla2.png', 100, 100, 3);
+    this.load.spritesheet('ss_pez', 'img/pez_anim.png', 27, 59, 4);
 
     this.load.image('winnerDark', 'img/winnerDark.png');
 	this.load.image('winnerDD', 'img/winnerDD.png');
