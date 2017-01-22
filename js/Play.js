@@ -53,6 +53,22 @@ Waves.Play.prototype = {
 	  this.currentPlayer = 1;
 	  this.tapEnabled = false;
   
+  	  // Waves
+	  // this.waves = this.game.add.graphics( 0, 0 ); 
+	  this.waves = [
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 )
+	  ];
+	  this.waves[0].anchor.set( 0.5 );
+	  this.waves[1].anchor.set( 0.5 );
+	  this.waves[2].anchor.set( 0.5 ); 
+	  this.wave_animations = [
+			this.waves[0].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[1].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[2].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 )
+	  ];
+  
 	  // Collision groups
 	  this.bugsP1CollisionGroup = this.game.physics.p2.createCollisionGroup();
 	  this.bugsP2CollisionGroup = this.game.physics.p2.createCollisionGroup();
@@ -90,22 +106,6 @@ Waves.Play.prototype = {
 	  this.tapsP2[0].visible = false;
 	  this.tapsP2[1].visible = false;
 	  this.tapsP2[2].visible = false; 
-	  
-	  // Waves
-	  // this.waves = this.game.add.graphics( 0, 0 ); 
-	  this.waves = [
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 )
-	  ];
-	  this.waves[0].anchor.set( 0.5 );
-	  this.waves[1].anchor.set( 0.5 );
-	  this.waves[2].anchor.set( 0.5 ); 
-	  this.wave_animations = [
-			this.waves[0].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
-			this.waves[1].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
-			this.waves[2].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 )
-	  ];
 	  
 	  /*
 	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
@@ -263,7 +263,11 @@ Waves.Play.prototype = {
 	},
     
     addSidebar1: function( x, y ) {
-		this.sidebar1 = this.sidebars.create( x, y, "sidebar1" );
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
+			this.sidebar1 = this.sidebars.create( x, y, "sidebarP1MakeyMakey" );
+		} else {
+			this.sidebar1 = this.sidebars.create( x, y, "sidebarP1PointerEvents" );
+		}
 		this.game.physics.p2.enable( [ this.sidebar1 ], false );
 		this.sidebar1.body.fixedRotation = true;
 		this.sidebar1.body.static = true;
@@ -272,7 +276,11 @@ Waves.Play.prototype = {
 	},
     
     addSidebar2: function( x, y ) {
-		this.sidebar2 = this.sidebars.create( x, y, "sidebar2" );
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
+			this.sidebar2 = this.sidebars.create( x, y, "sidebarP2MakeyMakey" );
+		} else {
+			this.sidebar2 = this.sidebars.create( x, y, "sidebarP2PointerEvents" );
+		}
 		this.game.physics.p2.enable( [ this.sidebar2 ], false );
 		this.sidebar2.body.fixedRotation = true;
 		this.sidebar2.body.static = true;
