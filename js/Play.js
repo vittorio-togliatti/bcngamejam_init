@@ -51,6 +51,7 @@ Waves.Play.prototype = {
 	  scoreP2 = 0;
 	  winner = null;
 	  this.currentPlayer = 1;
+	  this.tapEnabled = false;
   
 	  // Collision groups
 	  this.bugsP1CollisionGroup = this.game.physics.p2.createCollisionGroup();
@@ -64,12 +65,7 @@ Waves.Play.prototype = {
 	  this.bugsP1 = this.game.add.group();
 	  this.bugsP2 = this.game.add.group();
 	  this.islands = this.game.add.group();	
-      this.sidebars = this.game.add.group();
       this.ranas = this.game.add.group();
-      
-      // Creo objetos
-      this.addSidebar1( 75, 300 );
-      this.addSidebar2( 1125, 300 );
 
 	  this.addBugs( 1, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
 	  this.addBugs( 1, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
@@ -77,16 +73,6 @@ Waves.Play.prototype = {
 	  this.addIsland2( windowWidth - 250, windowHeight / 2);
 
       this.addRana( 300, 100 );
-	  	 
-      // sidebarsPlaying
-	  var styleP1 = { font: "bold 75px Arial", fill: "#79562a", boundsAlignH: "center", boundsAlignV: "middle" };	  
-      this.scoreP1Text = this.game.add.text( 48, 70, "0", styleP1 );
-	  var styleP2 = { font: "bold 75px Arial", fill: "#4c8d36", boundsAlignH: "center", boundsAlignV: "middle" };
-      this.scoreP2Text = this.game.add.text( 1110, 70, "0", styleP2 );
-
-	  this.borderP1 = this.game.add.sprite( 0, 0, "borderP1" )
-	  this.borderP2 = this.game.add.sprite( 1050, 0, "borderP2" );
-	  this.borderP2.visible = false;
 	  
 	  // taps
 	  this.numTapsP1 = 3;
@@ -103,9 +89,45 @@ Waves.Play.prototype = {
 	  ];
 	  this.tapsP2[0].visible = false;
 	  this.tapsP2[1].visible = false;
-	  this.tapsP2[2].visible = false;
+	  this.tapsP2[2].visible = false; 
 	  
-	  this.tapEnabled = false;
+	  // Waves
+	  // this.waves = this.game.add.graphics( 0, 0 ); 
+	  this.waves = [
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
+			this.game.add.sprite( 0, 0, 'ss_waves', 7 )
+	  ];
+	  this.waves[0].anchor.set( 0.5 );
+	  this.waves[1].anchor.set( 0.5 );
+	  this.waves[2].anchor.set( 0.5 ); 
+	  this.wave_animations = [
+			this.waves[0].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[1].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
+			this.waves[2].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 )
+	  ];
+	  
+	  /*
+	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
+	  this.waves.anchor.set( 0.5 );
+	  this.anim_waves = this.waves.animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6 ], 25 );
+	  //this.waves.visible = true;	
+		*/	
+
+	  // Creo objetos
+	  this.sidebars = this.game.add.group();	  
+      this.addSidebar1( 75, 300 );
+      this.addSidebar2( 1125, 300 ); 
+		 
+      // sidebarsPlaying	  
+      this.scoreP1Text = this.game.add.text( 48, 70, "0",
+								{ font: "bold 75px Arial", fill: "#79562a", boundsAlignH: "center", boundsAlignV: "middle" } );
+      this.scoreP2Text = this.game.add.text( 1110, 70, "0",
+								{ font: "bold 75px Arial", fill: "#4c8d36", boundsAlignH: "center", boundsAlignV: "middle" } );
+
+	  this.borderP1 = this.game.add.sprite( 0, 0, "borderP1" )
+	  this.borderP2 = this.game.add.sprite( 1050, 0, "borderP2" );
+	  this.borderP2.visible = false;		
 	  
 	  this.sidebarBugP1 = null;
 	  if ( DEVICE == CONST.MAKEY_MAKEY ) {
@@ -134,30 +156,7 @@ Waves.Play.prototype = {
 		.delay( 250 );
 	  this.sidebarBugP2TweenIn.onComplete.add( this.enableTap, this );
 	  this.sidebarBugP2TweenOut = this.game.add.tween( this.sidebarBugP2 )
-		.to( { x: 1200 }, 1000, null );	  
-	  
-	  // Waves
-	  // this.waves = this.game.add.graphics( 0, 0 ); 
-	  this.waves = [
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 ),
-			this.game.add.sprite( 0, 0, 'ss_waves', 7 )
-	  ];
-	  this.waves[0].anchor.set( 0.5 );
-	  this.waves[1].anchor.set( 0.5 );
-	  this.waves[2].anchor.set( 0.5 ); 
-	  this.wave_animations = [
-			this.waves[0].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
-			this.waves[1].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 ),
-			this.waves[2].animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6, 7 ], 25 )
-	  ];
-	  
-	  /*
-	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
-	  this.waves.anchor.set( 0.5 );
-	  this.anim_waves = this.waves.animations.add( 'ss_waves', [ 0, 1, 2, 3, 4, 5, 6 ], 25 );
-	  //this.waves.visible = true;	
-		*/	  
+		.to( { x: 1200 }, 1000, null );	 		
 	  
 	  // Lanzamos ya el tween del chinche P1
 	  this.sidebarBugP1TweenIn.start();
@@ -343,7 +342,7 @@ Waves.Play.prototype = {
     },
 	
 	createSplash: function( x, y ) {
-		if ( this.tapEnabled ) {
+		if ( this.tapEnabled && x > 150 && x < 1050 ) {
 		
             
            // Para rotar el pez y que vaya al cursor

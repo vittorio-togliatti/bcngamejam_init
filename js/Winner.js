@@ -17,10 +17,11 @@ Waves.Winner.prototype = {
 	 } else if ( DEVICE == CONST.POINTER_EVENTS ){
 		this.game.add.sprite( 0, 0, 'winnerPointerEvents', 0 );
 	 }	
-	  
-	  var style = { font: "bold 120px Arial", fill: "#7e5f33", boundsAlignH: "center", boundsAlignV: "middle" };	  
-      this.scoreP1Text = this.game.add.text( 490, 175, scoreP1, style );	  
-      this.scoreP2Text = this.game.add.text( 640, 175, scoreP2, style );
+	   
+      this.scoreP1Text = this.game.add.text( 490, 175, scoreP1, 
+						{ font: "bold 120px Arial", fill: "#7e5f33", boundsAlignH: "center", boundsAlignV: "middle" } );	  
+      this.scoreP2Text = this.game.add.text( 640, 175, scoreP2, 
+						{ font: "bold 120px Arial", fill: "#4c8d36", boundsAlignH: "center", boundsAlignV: "middle" } );
 
 	  this.game.add.sprite( 0, 300, "winnerHojas" );
 	  
