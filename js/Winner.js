@@ -12,7 +12,11 @@ Waves.Winner.prototype = {
   create: function() {
   
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-	  this.game.add.sprite( 0, 0, "winner", 0 );
+	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		this.game.add.sprite( 0, 0, 'winnerMakeyMakey', 0 );
+	 } else if ( DEVICE == CONST.POINTER_EVENTS ){
+		this.game.add.sprite( 0, 0, 'winnerPointerEvents', 0 );
+	 }	
 	  
 	  var style = { font: "bold 120px Arial", fill: "#7e5f33", boundsAlignH: "center", boundsAlignV: "middle" };	  
       this.scoreP1Text = this.game.add.text( 490, 175, scoreP1, style );	  
@@ -38,7 +42,7 @@ Waves.Winner.prototype = {
   },
  
 	onKeyDownCallback: function( keyCode ) {
-		if ( DEVICE == MAKEY_MAKEY ) {
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
 			var keyCode = this.game.input.keyboard.event.keyCode;
 			
 			if ( keyCode == 38 || keyCode == 40 || keyCode == 87 || keyCode == 32 || keyCode == 83 || keyCode == 68 ) {
@@ -53,7 +57,10 @@ Waves.Winner.prototype = {
  
 
   onMouseDownCallback: function() {
-	 if ( DEVICE == MOUSE ) {
+  
+	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		this.state.start( 'Play' );
+	 } else if ( DEVICE == CONST.POINTER_EVENTS ) {
 		var x = this.game.input.activePointer.x;
 		var y = this.game.input.activePointer.y;		
 		if ( this.mainMenuClickArea.contains( x, y ) ) {
@@ -62,8 +69,6 @@ Waves.Winner.prototype = {
 		if ( this.playAgainClickArea.contains( x, y ) ) {
 			this.state.start( 'Play' );
 		}		
-	 } else if ( DEVICE == MAKEY_MAKEY ) { /* El click de ratón está asociado al replay */
-		this.state.start( 'Play' );
 	 } else {
 		// Keyboard?
 	 }

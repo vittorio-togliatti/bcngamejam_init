@@ -20,10 +20,12 @@ Waves.Preload.prototype = {
     this.load.audio('audio_weheee', 'audio/weheee.mp3');
     
     this.load.image('particle_bug', 'img/particula_1.png');
-    this.load.image('menu', 'img/menu.jpg');
-	this.load.image('play4MakeyMakey', 'img/play4MakeyMakey.jpg');
-	this.load.image('play4Mouse', 'img/play4Mouse.jpg');
-	this.load.image('winner', 'img/winner.jpg');
+    this.load.image('menuMakeyMakey', 'img/menuMakeyMakey.jpg');
+	this.load.image('menuPointerEvents', 'img/menuPointerEvents.jpg');
+	this.load.image('playMakeyMakey', 'img/playMakeyMakey.jpg');
+	this.load.image('playPointerEvents', 'img/playPointerEvents.jpg');
+    this.load.image('winnerMakeyMakey', 'img/winnerMakeyMakey.jpg');
+	this.load.image('winnerPointerEvents', 'img/winnerPointerEvents.jpg');
     this.load.image('bugP1', 'img/bugP1.png');
 	this.load.image('bugP2', 'img/bugP2.png');
 	this.load.image('island1', 'img/island1.png');
@@ -34,8 +36,10 @@ Waves.Preload.prototype = {
     this.load.image('borderP2', 'img/borderP2.png');
     this.load.image('tapP1', 'img/tapP1.png');
     this.load.image('tapP2', 'img/tapP2.png');	
-    this.load.image('sidebarBugP1', 'img/sidebarBugP1.png');
-    this.load.image('sidebarBugP2', 'img/sidebarBugP2.png');
+    this.load.image('sidebarBugP1MakeyMakey', 'img/sidebarBugP1MakeyMakey.png');
+	this.load.image('sidebarBugP1PointerEvents', 'img/sidebarBugP1PointerEvents.png');	
+    this.load.image('sidebarBugP2MakeyMakey', 'img/sidebarBugP2MakeyMakey.png');
+	this.load.image('sidebarBugP2PointerEvents', 'img/sidebarBugP2PointerEvents.png');	
 	
     this.load.spritesheet('ss_rana', 'img/ss_rana.png', 143, 140, 11);
 	this.load.spritesheet('ss_waves', 'img/ss_waves.png', 201, 201, 8 );

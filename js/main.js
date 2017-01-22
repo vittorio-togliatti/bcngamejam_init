@@ -1,9 +1,14 @@
 var Waves = Waves || {};
 
-var MOUSE = 0;
-var MAKEY_MAKEY = 1;
-var KEYBOARD = 2;
-var DEVICE = MOUSE;
+// Device types!
+var CONST = {
+	MAKEY_MAKEY: 0,
+	POINTER_EVENTS: 1,
+	KEYBOARD: 2
+}
+var DEVICE = CONST.MAKEY_MAKEY;
+
+// Game globals
 var scoreP1 = 0;
 var scoreP2 = 0;
 var winner = null;

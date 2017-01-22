@@ -30,10 +30,12 @@ Waves.Play.prototype = {
     this.audio_rana  = this.add.audio('audio_rana');
     this.audio_weheee  = this.add.audio('audio_weheee');
       
-	 if ( DEVICE == MOUSE ) {
-		this.game.add.sprite( 150, 0, 'play4Mouse', 0 );
-	 } else if ( DEVICE == MAKEY_MAKEY ){
-		this.game.add.sprite( 150, 0, 'play4MakeyMakey', 0 );
+	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		this.game.add.sprite( 150, 0, 'playMakeyMakey', 0 );
+	 } else if ( DEVICE == CONST.POINTER_EVENTS ) {
+		this.game.add.sprite( 150, 0, 'playPointerEvents', 0 );
+	 } else {
+		// KEYBOARD???
 	 }
 		
 	  // Game logic
@@ -97,14 +99,28 @@ Waves.Play.prototype = {
 	  
 	  this.tapEnabled = false;
 	  
-	  this.sidebarBugP1 = this.game.add.sprite( -200, 300, "sidebarBugP1" );
+	  this.sidebarBugP1 = null;
+	  if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		this.sidebarBugP1 = this.game.add.sprite( -200, 300, "sidebarBugP1MakeyMakey" );
+	  } else if ( DEVICE == CONST.POINTER_EVENTS ) {
+		this.sidebarBugP1 = this.game.add.sprite( -200, 300, "sidebarBugP1PointerEvents" );
+	  } else {
+		// KEYBOARD??? OTHER???
+	  }
 	  this.sidebarBugP1TweenIn = this.game.add.tween( this.sidebarBugP1 )
 		.to( { x: -20 }, 1000, Phaser.Easing.Elastic.Out )
 		.delay( 250 );
 	  this.sidebarBugP1TweenIn.onComplete.add( this.enableTap, this );
 	  this.sidebarBugP1TweenOut = this.game.add.tween( this.sidebarBugP1 )
 		.to( { x: -200 }, 1000, null );
-	  this.sidebarBugP2 = this.game.add.sprite( 1200, 300, "sidebarBugP2" );
+	  this.sidebarBugP2 = null;
+	  if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		this.sidebarBugP2 = this.game.add.sprite( 1200, 300, "sidebarBugP2MakeyMakey" );
+	  } else if ( DEVICE == CONST.POINTER_EVENTS ) {
+		this.sidebarBugP2 = this.game.add.sprite( 1200, 300, "sidebarBugP2PointerEvents" );
+	  } else {
+		// KEYBOARD??? OTHER???
+	  }
 	  this.sidebarBugP2TweenIn = this.game.add.tween( this.sidebarBugP2 )
 		.to( { x: 1020 }, 1000, Phaser.Easing.Elastic.Out )
 		.delay( 250 );
@@ -245,7 +261,7 @@ Waves.Play.prototype = {
 	
 	onKeyDownCallback: function( keyCode ) {
 	
-		if ( DEVICE == MAKEY_MAKEY ) {
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
 		
 			var keyCode = this.game.input.keyboard.event.keyCode;
 			
@@ -292,16 +308,15 @@ Waves.Play.prototype = {
 	},
 
     onMouseDownCallback: function() {
-		// Test mouse clicks!
-		if ( DEVICE == MOUSE ) { /* La variable DEVICE se modifica en main.js */
+	
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
+			this.createSplash( 750, 300 );
+		} else if ( DEVICE == CONST.POINTER_EVENTS ) { /* La variable DEVICE se modifica en main.js */
 			var x = this.game.input.activePointer.x;
 			var y = this.game.input.activePointer.y;
 			this.createSplash( x, y );
-		} else if ( DEVICE == MAKEY_MAKEY ) {
-			// Makey Makey
-			this.createSplash( 750, 300 );
 		} else {
-			// KEYBOARD
+			// KEYBOARD ???
 		}
     },
 	

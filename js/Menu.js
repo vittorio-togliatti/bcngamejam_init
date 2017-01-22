@@ -12,7 +12,14 @@ Waves.Menu.prototype = {
   create: function() {
   
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.game.add.sprite( 0, 0, 'menu', 0 );
+		 if ( DEVICE == CONST.MAKEY_MAKEY ) {
+			this.game.add.sprite( 0, 0, 'menuMakeyMakey', 0 );	
+		 } else if ( DEVICE == CONST.POINTER_EVENTS ){
+			this.game.add.sprite( 0, 0, 'menuPointerEvents', 0 );
+		 } else {
+			// CONST.KEYBOARD?
+		 }
+	  
       
 		this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
 		
@@ -31,9 +38,8 @@ Waves.Menu.prototype = {
 	
 	onKeyDownCallback: function( keyCode ) {
 	
-		if ( DEVICE == MAKEY_MAKEY ) {
-			var keyCode = this.game.input.keyboard.event.keyCode;
-			
+		if ( DEVICE == CONST.MAKEY_MAKEY ) {
+			var keyCode = this.game.input.keyboard.event.keyCode;			
 			if ( keyCode == 39 || keyCode == 65 || keyCode == 71  ) {
 				this.state.start( 'Play' );
 			}
@@ -41,21 +47,16 @@ Waves.Menu.prototype = {
 		
 	},	
  
-  /*
-	Aquí habría que diferenciar si usamos Makey Makey o ratón.
-	Con Makey Makey el click sirve para cambiar el dispositivo de juego.
-	Con ratón habría que pulsar en cada item.
-	Por ahora dejamos el ratón para ir a play!!!
-  */
   onMouseDownCallback: function() {
-	 if ( DEVICE == MOUSE ) {
+	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
+		// Sólo sirve para cuando si queremos cambiar el dispositivo!
+	} else if ( DEVICE == CONST.POINTER_EVENTS ) {
 		var x = this.game.input.activePointer.x;
 		var y = this.game.input.activePointer.y;		
 		if ( this.playClickArea.contains( x, y ) ) {
 			this.state.start( 'Play' );
 		}
 	} else {
-		// MAKEY_MAKEY cambiaría el device!
 		// KEYBOARD???
 	}
 		
