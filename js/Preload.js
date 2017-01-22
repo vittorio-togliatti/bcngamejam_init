@@ -21,7 +21,8 @@ Waves.Preload.prototype = {
     
     this.load.image('particle_bug', 'img/particula_1.png');
     this.load.image('menu', 'img/menu.jpg');
-	this.load.image('play', 'img/play.jpg');
+	this.load.image('play4MakeyMakey', 'img/play4MakeyMakey.jpg');
+	this.load.image('play4Mouse', 'img/play4Mouse.jpg');
 	this.load.image('winner', 'img/winner.jpg');
     this.load.image('bugP1', 'img/bugP1.png');
 	this.load.image('bugP2', 'img/bugP2.png');

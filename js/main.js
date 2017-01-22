@@ -1,5 +1,9 @@
 var Waves = Waves || {};
 
+var MOUSE = 0;
+var MAKEY_MAKEY = 1;
+var KEYBOARD = 2;
+var DEVICE = MOUSE;
 var scoreP1 = 0;
 var scoreP2 = 0;
 var winner = null;

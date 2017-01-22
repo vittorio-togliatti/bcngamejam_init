@@ -29,11 +29,44 @@ Waves.Winner.prototype = {
 	  } else {
 		this.game.add.sprite( 0, 65, "winnerDD" );
 	  }
+	  
+	  this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
+	  
+	  this.mainMenuClickArea = new PIXI.Rectangle( 460, 414, 135, 120 );
+	  this.playAgainClickArea = new PIXI.Rectangle( 604, 414, 135, 120 );
 
   },
  
-  onMouseDownCallback: function( x, y ) {
-     this.state.start( 'Menu' );
+	onKeyDownCallback: function( keyCode ) {
+		if ( DEVICE == MAKEY_MAKEY ) {
+			var keyCode = this.game.input.keyboard.event.keyCode;
+			
+			if ( keyCode == 38 || keyCode == 40 || keyCode == 87 || keyCode == 32 || keyCode == 83 || keyCode == 68 ) {
+				this.state.start( 'Menu' );
+			}
+			if ( keyCode == 37 || keyCode == 39 /* || Mouse click! */  || keyCode == 65 || keyCode == 70 || keyCode == 71 ) {
+				this.state.start( 'Play' );
+			}
+		}
+		
+	},
+ 
+
+  onMouseDownCallback: function() {
+	 if ( DEVICE == MOUSE ) {
+		var x = this.game.input.activePointer.x;
+		var y = this.game.input.activePointer.y;		
+		if ( this.mainMenuClickArea.contains( x, y ) ) {
+			this.state.start( 'Menu' );
+		}
+		if ( this.playAgainClickArea.contains( x, y ) ) {
+			this.state.start( 'Play' );
+		}		
+	 } else if ( DEVICE == MAKEY_MAKEY ) { /* El click de ratón está asociado al replay */
+		this.state.start( 'Play' );
+	 } else {
+		// Keyboard?
+	 }
   }
     
 };
