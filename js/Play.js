@@ -13,6 +13,7 @@ Waves.Play.prototype = {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 		//this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
       
+     
        // Start the P2 Physics Engine
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         //  Turn on impact events for the world, without this we get no collision callbacks
@@ -30,6 +31,7 @@ Waves.Play.prototype = {
     this.audio_rana  = this.add.audio('audio_rana');
     this.audio_weheee  = this.add.audio('audio_weheee');
       
+
 	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
 		this.game.add.sprite( 150, 0, 'playMakeyMakey', 0 );
 	 } else if ( DEVICE == CONST.POINTER_EVENTS ) {
@@ -37,6 +39,12 @@ Waves.Play.prototype = {
 	 } else {
 		// KEYBOARD???
 	 }
+      
+    // Para rotar el pez y que vaya al cursor
+	//this.addPez();
+	//this.anim_pez.play(5,true);
+	//this.pezTween = this.game.add.tween( this.pez );
+	//this.pezTweenAngle = this.game.add.tween( this.pez );
 		
 	  // Game logic
 	  scoreP1 = 0;
@@ -163,7 +171,6 @@ Waves.Play.prototype = {
   update: function() {
      
 	//this.waves.alpha -= 0.025;
-            
   },
  
 	/*
@@ -224,6 +231,21 @@ Waves.Play.prototype = {
 		island.checkWorldBounds = true;
 		island.outOfBoundsKill = true;
 	},
+
+    //El Pez
+//    addPez: function( x, y) {
+//		this.pez = this.game.add.sprite( 300, 300, 'ss_pez', 0 );
+//       
+//      
+//        this.anim_pez = this.pez.animations.add('ss_pez',[0,1,2,3],10);
+//        
+//        this.game.physics.enable(this.pez, Phaser.Physics.ARCADE);
+//        
+//        this.pez.body.allowRotation = false;
+//        this.pez.anchor.setTo(0.5, 0.5);
+//        
+//    
+//	},
 	
 	addRana: function( x, y) {
 		var rana = this.ranas.create( x, y, "ss_rana",0);
@@ -323,6 +345,16 @@ Waves.Play.prototype = {
 	createSplash: function( x, y ) {
 		if ( this.tapEnabled ) {
 		
+            
+           // Para rotar el pez y que vaya al cursor
+//            var rotation = (Math.atan2(this.pez.y - y, this.pez.x - x) - Math.PI/2)  * (180/Math.PI);
+//            this.pezTween.stop();
+//            this.pezTweenAngle.stop();
+//            this.pezTween = this.game.add.tween( this.pez ).to( { x:x,y:y }, 5000, Phaser.Easing.Quadratic.InOut );
+//            this.pezTweenAngle = this.game.add.tween( this.pez).to( {angle:rotation}, 1000, Phaser.Easing.Quadratic.InOut );
+//            this.pezTweenAngle.start();
+//            this.pezTween.start();
+            
 			/*
 			this.waves.clear();
 			this.waves.alpha = 1;
