@@ -26,6 +26,9 @@ Waves.Menu.prototype = {
 		this.input.onDown.add( this.onMouseDownCallback, this );
 		
 		this.playClickArea = new PIXI.Rectangle( 823, 265, 185, 125 );
+      
+      this.audio_intro  = this.add.audio('audio_intro');
+      this.audio_intro.loopFull();
     }, 
  
   update: function() {
@@ -41,7 +44,7 @@ Waves.Menu.prototype = {
 		if ( DEVICE == CONST.MAKEY_MAKEY ) {
 			var keyCode = this.game.input.keyboard.event.keyCode;			
 			if ( keyCode == 39 || keyCode == 65 || keyCode == 71  ) {
-				this.state.start( 'Play' );
+				this.goToPlay();
 			}
 		}
 		
@@ -54,13 +57,21 @@ Waves.Menu.prototype = {
 		var x = this.game.input.activePointer.x;
 		var y = this.game.input.activePointer.y;		
 		if ( this.playClickArea.contains( x, y ) ) {
-			this.state.start( 'Play' );
+			this.goToPlay();
 		}
 	} else {
 		// KEYBOARD???
 	}
 		
-  }
+  },
+    
+    goToPlay: function(){
+        this.audio_intro.stop();
+        this.state.start( 'Play' );
+    }
+    
+    
+    
     
 };
 

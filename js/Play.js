@@ -30,6 +30,9 @@ Waves.Play.prototype = {
       
     this.audio_rana  = this.add.audio('audio_rana');
     this.audio_weheee  = this.add.audio('audio_weheee');
+    this.audio_juego  = this.add.audio('audio_juego');
+    this.audio_drop  = this.add.audio('audio_drop');
+       
       
 
 	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
@@ -165,6 +168,7 @@ Waves.Play.prototype = {
 	  this.game.input.keyboard.onDownCallback = this.onKeyDownCallback.bind( this );
       this.input.onDown.add( this.onMouseDownCallback, this );
    
+      this.audio_juego.loopFull();
  }, 
  
   update: function() {
@@ -443,7 +447,8 @@ Waves.Play.prototype = {
 	},
 		
 	applyImpulse: function( x, y, bug ) {
-	
+	    this.audio_drop.play();
+        
         var distancia = this.distance( x, y, bug.body.x, bug.body.y );
    
         var bichox = bug.body.x;
@@ -480,6 +485,7 @@ Waves.Play.prototype = {
     },
 	
 	onBugP1CollidingIsland: function( bug, island ) {
+        this.runBugEmitter(bug.sprite.body.x,bug.sprite.body.y);
 		bug.sprite.destroy();
         this.audio_weheee.play();
 		scoreP1++;
@@ -488,6 +494,7 @@ Waves.Play.prototype = {
 	},
 	
 	onBugP2CollidingIsland: function( bug, island ) {
+        this.runBugEmitter(bug.sprite.body.x,bug.sprite.body.y);
 		bug.sprite.destroy();
         this.audio_weheee.play();
 		scoreP2++;
@@ -550,7 +557,8 @@ Waves.Play.prototype = {
     },
     
     goToWinner: function(){
-     this.state.start('Winner');
+        this.audio_juego.stop();
+        this.state.start('Winner');
     }
     
     

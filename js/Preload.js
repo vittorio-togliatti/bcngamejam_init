@@ -18,6 +18,10 @@ Waves.Preload.prototype = {
     //load game assets
     this.load.audio('audio_rana', 'audio/rana.mp3');
     this.load.audio('audio_weheee', 'audio/weheee.mp3');
+    this.load.audio('audio_drop', 'audio/drop.mp3');
+    this.load.audio('audio_intro', 'audio/intro.ogg');
+    this.load.audio('audio_juego', 'audio/juego.ogg');
+    this.load.audio('audio_final', 'audio/final.ogg');
     
     this.load.image('particle_bug', 'img/particula_1.png');
     this.load.image('menuMakeyMakey', 'img/menuMakeyMakey.jpg');
@@ -42,7 +46,7 @@ Waves.Preload.prototype = {
 	this.load.image('sidebarBugP2PointerEvents', 'img/sidebarBugP2PointerEvents.png');	
 	
     this.load.spritesheet('ss_rana', 'img/ss_rana.png', 143, 140, 11);
-	this.load.spritesheet('ss_waves', 'img/ss_waves.png', 201, 201, 8 );
+	this.load.spritesheet('ss_waves', 'img/ss_waves.png', 391, 384, 8 );
     this.load.spritesheet('ss_isla1', 'img/anim_isla1.png', 100, 100, 3);
     this.load.spritesheet('ss_isla2', 'img/anim_isla2.png', 100, 100, 3);
     this.load.spritesheet('ss_pez', 'img/pez_anim.png', 27, 59, 4);

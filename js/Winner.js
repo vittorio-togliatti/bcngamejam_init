@@ -10,6 +10,8 @@ Waves.Winner.prototype = {
   },
  
   create: function() {
+      
+      this.audio_final  = this.add.audio('audio_final');
   
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
@@ -39,6 +41,8 @@ Waves.Winner.prototype = {
 	  
 	  this.mainMenuClickArea = new PIXI.Rectangle( 460, 414, 135, 120 );
 	  this.playAgainClickArea = new PIXI.Rectangle( 604, 414, 135, 120 );
+      
+      this.audio_final.loopFull();
 
   },
  
@@ -47,10 +51,10 @@ Waves.Winner.prototype = {
 			var keyCode = this.game.input.keyboard.event.keyCode;
 			
 			if ( keyCode == 38 || keyCode == 40 || keyCode == 87 || keyCode == 32 || keyCode == 83 || keyCode == 68 ) {
-				this.state.start( 'Menu' );
+				this.goToMenu();
 			}
 			if ( keyCode == 37 || keyCode == 39 /* || Mouse click! */  || keyCode == 65 || keyCode == 70 || keyCode == 71 ) {
-				this.state.start( 'Play' );
+				this.goToPlay();
 			}
 		}
 		
@@ -60,20 +64,30 @@ Waves.Winner.prototype = {
   onMouseDownCallback: function() {
   
 	 if ( DEVICE == CONST.MAKEY_MAKEY ) {
-		this.state.start( 'Play' );
+		this.goToPlay();
 	 } else if ( DEVICE == CONST.POINTER_EVENTS ) {
 		var x = this.game.input.activePointer.x;
 		var y = this.game.input.activePointer.y;		
 		if ( this.mainMenuClickArea.contains( x, y ) ) {
-			this.state.start( 'Menu' );
+			this.goToMenu();
 		}
 		if ( this.playAgainClickArea.contains( x, y ) ) {
-			this.state.start( 'Play' );
+			this.goToPlay();
 		}		
 	 } else {
 		// Keyboard?
 	 }
-  }
+  },
+    
+    goToMenu: function(){
+        this.audio_final.stop();
+        this.state.start( 'Menu' );
+    },
+    
+    goToPlay: function(){
+        this.audio_final.stop();
+        this.state.start( 'Play' );
+    }
     
 };
 
