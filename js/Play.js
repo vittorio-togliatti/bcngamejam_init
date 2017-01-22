@@ -262,7 +262,7 @@ Waves.Play.prototype = {
 		rana.body.fixedRotation = false;
 		rana.body.mass = 3;
 		rana.body.setCollisionGroup( this.ranasCollisionGroup );	
-		rana.body.collides([this.islandsCollisionGroup,this.sidebarsCollisionGroup]);
+		rana.body.collides([this.islandsCollisionGroup,this.sidebarsCollisionGroup,this.ranasCollisionGroup]);
         rana.body.collides( [ this.bugsP1CollisionGroup,this.bugsP2CollisionGroup ], this.onCollisionRana, this );
 		rana.checkWorldBounds = true;
 		//rana.outOfBoundsKill = true;
