@@ -86,12 +86,13 @@ Waves.Play.prototype = {
 	  this.islands = this.game.add.group();	
       this.ranas = this.game.add.group();
 
-	  this.addBugs( 1, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
-	  this.addBugs( 1, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
+	  this.addBugs( 9, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
+	  this.addBugs( 9, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
 	  this.addIsland1( 250, windowHeight / 2);
 	  this.addIsland2( windowWidth - 250, windowHeight / 2);
 
-      this.addRana( 300, 100 );
+      this.addRana( 600, 50 );
+	  this.addRana( 600, 550 );
 	  
 	  /*
 	  this.waves = this.game.add.sprite( 600, 300, 'ss_waves', 5 );
@@ -190,7 +191,7 @@ Waves.Play.prototype = {
 	addBugs: function( num, img, group, collisionGroup, onCollisionCallback ) {
 		for ( var i = 0; i < num; i++ )  {
 			var x = 450 + Math.random() * 300;
-			var y = Math.random() * windowHeight;
+			var y = 200 + Math.random() * 200;
 			var bug = group.create( x, y, img );
 			this.game.physics.p2.enable( [ bug ], false );
             
@@ -250,7 +251,7 @@ Waves.Play.prototype = {
 //    
 //	},
 	
-	addRana: function( x, y) {
+	addRana: function( x, y ) {
 		var rana = this.ranas.create( x, y, "ss_rana",0);
         this.anim_rana = rana.animations.add('ss_rana',[1,2,3,4,5,6,7,8,9,10],30);
 		this.game.physics.p2.enable([rana],false);
@@ -354,7 +355,7 @@ Waves.Play.prototype = {
     },
 	
 	createSplash: function( x, y ) {
-		if ( this.tapEnabled && x > 150 && x < 1050 ) {
+		if ( this.tapEnabled && x > 149 && x < 1051 ) { /* Importante 149 y 1051 porque con 150 y 1050 las ondas de MakeyMakey no se lanzan! */
 		
             
            // Para rotar el pez y que vaya al cursor

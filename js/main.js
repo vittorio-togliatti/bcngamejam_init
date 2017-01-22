@@ -6,7 +6,7 @@ var CONST = {
 	POINTER_EVENTS: 1,
 	KEYBOARD: 2
 }
-var DEVICE = CONST.POINTER_EVENTS;
+var DEVICE = CONST.MAKEY_MAKEY;
 
 // Game globals
 var scoreP1 = 0;
