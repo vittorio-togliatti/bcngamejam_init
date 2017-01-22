@@ -10,6 +10,14 @@ Waves.Winner.prototype = {
   },
  
   create: function() {
+      this.audio_win  = this.add.audio('audio_win');
+      this.audio_empate  = this.add.audio('audio_empate');
+      
+       if (winner == null){
+                this.audio_empate.play();
+            } else {
+                this.audio_win.play();
+            }
       
       this.audio_final  = this.add.audio('audio_final');
   

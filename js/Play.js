@@ -30,8 +30,9 @@ Waves.Play.prototype = {
       
     this.audio_rana  = this.add.audio('audio_rana');
     this.audio_weheee  = this.add.audio('audio_weheee');
-    this.audio_juego  = this.add.audio('audio_juego');
     this.audio_drop  = this.add.audio('audio_drop');
+    this.audio_juego  = this.add.audio('audio_juego');
+    
        
       
 
@@ -86,8 +87,8 @@ Waves.Play.prototype = {
 	  this.islands = this.game.add.group();	
       this.ranas = this.game.add.group();
 
-	  this.addBugs( 9, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
-	  this.addBugs( 9, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
+	  this.addBugs( 1, "bugP1", this.bugsP1, this.bugsP1CollisionGroup, this.onBugP1CollidingIsland );
+	  this.addBugs( 1, "bugP2", this.bugsP2, this.bugsP2CollisionGroup, this.onBugP2CollidingIsland );     
 	  this.addIsland1( 250, windowHeight / 2);
 	  this.addIsland2( windowWidth - 250, windowHeight / 2);
 
@@ -391,6 +392,7 @@ Waves.Play.prototype = {
 			this.applyImpulse( x, y, this.islands.children[1] );
 			
 			this.applyImpulse( x, y, this.ranas.children[0] );
+            this.applyImpulse( x, y, this.ranas.children[1] );
 			
 			for ( var i = 0; i < this.bugsP1.children.length; i++ ) {			
 				this.applyImpulse( x, y, this.bugsP1.children[i] );
@@ -527,17 +529,17 @@ Waves.Play.prototype = {
 	checkWinner: function() {
 		if ( scoreP1 > scoreP2 + this.bugsP2.children.length ) {
 			winner = 1;
-            this.game.time.events.add(2000, this.goToWinner, this);
+            this.goToFinishPause();
 		}
 		if ( scoreP2 > scoreP1 + this.bugsP1.children.length ) {
 			winner = 2;
-			  this.game.time.events.add(2000, this.goToWinner, this);
+			  this.goToFinishPause();
 		}
 		if ( scoreP1 === scoreP2 
 			&& this.bugsP1.children.length === 0 
 			&& this.bugsP2.children.length === 0 ) {
 			winner = null;
-			 this.game.time.events.add(2000, this.goToWinner, this);
+			 this.goToFinishPause();
 		}
 	},
     
@@ -559,6 +561,10 @@ Waves.Play.prototype = {
         //  And 2 seconds later we'll destroy the emitter
         //this.game.time.events.add(2000, this.destroyEmitter, this);
     },
+    
+    goToFinishPause: function(){
+            this.game.time.events.add(700, this.goToWinner, this);
+        },
     
     goToWinner: function(){
         this.audio_juego.stop();

@@ -19,6 +19,8 @@ Waves.Preload.prototype = {
     this.load.audio('audio_rana', 'audio/rana.mp3');
     this.load.audio('audio_weheee', 'audio/weheee.mp3');
     this.load.audio('audio_drop', 'audio/drop.mp3');
+    this.load.audio('audio_win', 'audio/win.mp3');
+    this.load.audio('audio_empate', 'audio/empate.mp3');
     this.load.audio('audio_intro', 'audio/intro.ogg');
     this.load.audio('audio_juego', 'audio/juego.ogg');
     this.load.audio('audio_final', 'audio/final.ogg');
@@ -52,7 +54,7 @@ Waves.Preload.prototype = {
     this.load.spritesheet('ss_pez', 'img/pez_anim.png', 27, 59, 4);
 
     this.load.image('winnerDark', 'img/winnerDark.png');
-	this.load.image('winnerDD', 'img/winnerDD.png');
+	this.load.image('winnerDD', 'img/winnerDD.png');   
 	this.load.image('winnerHojas', 'img/winnerHojas.png');
 	this.load.image('winnerLW', 'img/winnerLW.png');
 	this.load.image('winnerWL', 'img/winnerWL.png');
